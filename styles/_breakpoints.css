@@ -1,0 +1,27 @@
+@theme {
+  --breakpoint-sm: 30rem; /* 480px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-xxl: 90rem; /* 1440px */
+}
+
+@layer utilities {
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @variant sm {
+    .container {
+      max-width: 72rem;
+    }
+  }
+
+  @variant lg {
+    .container {
+      max-width: var(--breakpoint-xl);
+    }
+  }
+}
