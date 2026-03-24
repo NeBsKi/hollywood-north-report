@@ -1,0 +1,1 @@
+export { SearchInputMobile } from './SearchInputMobile'

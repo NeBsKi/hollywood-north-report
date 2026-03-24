@@ -1,6 +1,7 @@
-import { Logo } from '@/components/ui/Logo'
 import Link from 'next/link'
-import { Nav } from '../Nav/Nav'
+
+import { Logo } from '@/components/ui/Logo'
+import { Nav } from '../Nav'
 
 export const HeaderDesktop = () => {
   return (

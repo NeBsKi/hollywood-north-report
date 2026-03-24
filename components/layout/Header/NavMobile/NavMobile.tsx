@@ -1,13 +1,13 @@
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
+
 import { ChevronRight } from '@/components/ui/icons'
 import { Logo } from '@/components/ui/Logo/Logo'
-import { cn } from '@/lib/utils'
-import Link from 'next/link'
 
-interface MobileNavProps {
-  isOpen: boolean
-}
+import { navMock } from './NavMobile.mock'
+import { NavMobileProps } from './NavMobile.types'
 
-export const MobileNav = ({ isOpen }: MobileNavProps) => {
+export const NavMobile = ({ isOpen }: NavMobileProps) => {
   return (
     <div
       className={cn(
@@ -20,48 +20,17 @@ export const MobileNav = ({ isOpen }: MobileNavProps) => {
     >
       <nav className="bg-background-light px-4 py-10">
         <ul className="text-accent-500 font-lora flex flex-col gap-6 text-base/normal font-medium">
-          <li>
-            <Link
-              href="/news"
-              className="border-accent-500/10 flex items-center justify-between border-b pb-6"
-            >
-              Home
-              <ChevronRight />
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/filming-locations"
-              className="border-accent-500/10 flex items-center justify-between border-b pb-6"
-            >
-              Reviews
-              <ChevronRight />
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/contact"
-              className="border-accent-500/10 flex items-center justify-between border-b pb-6"
-            >
-              Industries & Awards
-              <ChevronRight />
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/contact"
-              className="border-accent-500/10 flex items-center justify-between border-b pb-6"
-            >
-              About Us
-              <ChevronRight />
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="flex items-center justify-between">
-              Contact
-              <ChevronRight />
-            </Link>
-          </li>
+          {navMock.map(({ href, children }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="border-accent-500/10 flex items-center justify-between border-b pb-6"
+              >
+                {children}
+                <ChevronRight />
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
       <div className="bg-accent-500 py-6">

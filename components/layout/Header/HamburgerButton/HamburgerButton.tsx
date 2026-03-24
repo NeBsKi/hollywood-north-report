@@ -1,10 +1,5 @@
 import clsx from 'clsx'
-import type { ComponentProps } from 'react'
-
-interface HamburgerButtonProps extends ComponentProps<'button'> {
-  isOpen?: boolean
-  lineClassName?: string
-}
+import { HamburgerButtonProps } from './HamburgerButton.types'
 
 export const HamburgerButton = ({
   className,

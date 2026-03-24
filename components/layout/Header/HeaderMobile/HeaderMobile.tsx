@@ -1,13 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { Logo } from '@/components/ui/Logo'
 import Link from 'next/link'
-import { HamburgerButton } from '../HamburgerButton'
-import { SearchInput } from '../SearchInput/SearchInput'
-import { Search } from '@/components/ui/icons'
-import { MobileNav } from '../MobileNav'
+
 import { cn } from '@/lib/utils'
+import { Search } from '@/components/ui/icons'
+import { Logo } from '@/components/ui/Logo'
+
+import { HamburgerButton } from '../HamburgerButton/'
+import { SearchInput } from '../SearchInput'
+import { NavMobile } from '../NavMobile'
+import { SearchInputMobile } from '../SearchInputMobile'
 
 export const HeaderMobile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -30,7 +33,12 @@ export const HeaderMobile = () => {
   }
 
   return (
-    <header className={cn('relative z-20 block w-full xl:hidden', isMenuOpen && 'fixed')}>
+    <header
+      className={cn(
+        'relative z-20 block w-full xl:hidden',
+        (isMenuOpen || isSearchOpen) && 'fixed',
+      )}
+    >
       <div className="bg-primary-700 py-1">
         <div className="border-secondary-500/20 border-y py-1">
           <div className="border-secondary-500/20 flex items-center justify-between border-y-2 px-4 py-4">
@@ -64,12 +72,8 @@ export const HeaderMobile = () => {
           </div>
         </div>
       </div>
-      <MobileNav isOpen={isMenuOpen} />
-      {isSearchOpen && (
-        <div className="absolute top-full left-0 w-full px-4 py-4">
-          <SearchInput />
-        </div>
-      )}
+      <NavMobile isOpen={isMenuOpen} />
+      <SearchInputMobile isOpen={isSearchOpen} />
     </header>
   )
 }
