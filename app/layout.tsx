@@ -9,7 +9,6 @@ const brandon = localFont({
     { path: '../public/fonts/brandon/brandon-regular.woff' },
     {
       path: '../public/fonts/brandon/brandon-regular-italic.woff',
-      weight: '400',
       style: 'italic',
     },
     { path: '../public/fonts/brandon/brandon-medium.woff' },
@@ -46,7 +45,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${brandon.variable} ${lora.variable} ${imFell.variable} antialiased`}>
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main className="container min-h-screen py-20">{children}</main>
         <Footer />
       </body>
     </html>
