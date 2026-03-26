@@ -15,7 +15,7 @@ export const HamburgerButton = ({
       aria-label={ariaLabel ?? (isOpen ? 'Close menu' : 'Open menu')}
       aria-pressed={isOpen}
       className={clsx(
-        'bg-accent-500/60 relative h-8 w-8 cursor-pointer rounded-lg transition-colors md:h-10 md:w-10',
+        'bg-accent-500/60 relative h-9 w-9 cursor-pointer rounded-lg transition-colors sm:h-10 sm:w-10',
         className,
       )}
       {...props}

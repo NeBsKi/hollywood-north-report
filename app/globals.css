@@ -9,3 +9,11 @@ body {
   background: var(--color-background-dark);
   font-family: var(--font-family-sans);
 }
+
+@media (max-width: 1279px) {
+  html:has(header[data-mobile-menu-open='true']),
+  body:has(header[data-mobile-menu-open='true']) {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+}

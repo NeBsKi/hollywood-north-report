@@ -1,17 +1,20 @@
 import { FilmCard } from '@/components/ui/FilmCard'
+import Link from 'next/link'
 
 export default function Home() {
   return (
     <>
       <div>
-        <FilmCard
-          title="Brooklyn’s Finest: Three Clocks, No Clean Way Out"
-          author="Alison Foreman"
-          category="Film Review"
-          description="Brooklyn’s Finest worked for me largely because the cast never lets the movie down, even when the structure feels heavy."
-          imageUrl="/film-poster.jpg"
-          hasBackground
-        />
+        <Link href="/">
+          <FilmCard
+            title="Brooklyn’s Finest: Three Clocks, No Clean Way Out"
+            author="Alison Foreman"
+            category="Film Review"
+            description="Brooklyn’s Finest worked for me largely because the cast never lets the movie down, even when the structure feels heavy."
+            imageUrl="/film-poster.jpg"
+            hasBackground
+          />
+        </Link>
       </div>
       <div className="mt-20 flex justify-between gap-6">
         <FilmCard

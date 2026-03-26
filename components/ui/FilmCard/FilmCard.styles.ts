@@ -5,10 +5,11 @@ export const filmCardVariants = tv({
     container: 'flex gap-10 w-full',
     imageWrapper: 'relative h-58 w-full rounded-md overflow-hidden',
     content: 'font-brandon relative',
-    category: 'text-base/6 text-primary-700 font-medium mb-2',
-    title: 'font-lora text-xl/7 mb-2 text-accent-500',
+    category: 'text-base/6 text-primary-700 mb-2 font-medium',
+    title:
+      'font-lora text-xl/7 mb-2 font-medium text-accent-500 hover:text-primary-700 transition-colors',
     description: 'text-base/6 text-accent-300',
-    author: 'text-base/6 text-accent-500 uppercase mt-4',
+    author: 'text-base/6 text-accent-500 font-medium uppercase mt-4',
     numericId: 'absolute left-0 top-0 font-lora',
   },
   variants: {
@@ -48,7 +49,7 @@ export const filmCardVariants = tv({
       orientation: 'horizontal',
       class: {
         container:
-          'px-4 py-6 md:p-10 bg-background-light items-center rounded-2xl drop-shadow-[0px_18px_40px_0px_rgba(0,0,0,0.02)]',
+          'flex-col md:flex-row px-4 py-6 md:p-10 bg-background-light items-center rounded-2xl drop-shadow-[0px_18px_40px_0px_rgba(0,0,0,0.02)]',
         imageWrapper: 'w-full md:w-1/2',
       },
     },

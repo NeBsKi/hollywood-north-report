@@ -6,12 +6,13 @@ import './globals.css'
 
 const brandon = localFont({
   src: [
-    { path: '../public/fonts/brandon/brandon-regular.woff' },
+    { path: '../public/fonts/brandon/HvDTrial_Brandon_Text_Regular.otf', weight: '400' },
     {
-      path: '../public/fonts/brandon/brandon-regular-italic.woff',
+      path: '../public/fonts/brandon/HvDTrial_Brandon_Text_Regular_Italic.otf',
       style: 'italic',
+      weight: '400',
     },
-    { path: '../public/fonts/brandon/brandon-medium.woff' },
+    { path: '../public/fonts/brandon/HvDTrial_Brandon_Text_Medium.otf', weight: '500' },
   ],
   variable: '--font-brandon',
   display: 'swap',
@@ -45,7 +46,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${brandon.variable} ${lora.variable} ${imFell.variable} antialiased`}>
         <Header />
-        <main className="container min-h-screen py-20">{children}</main>
+        <main className="container min-h-screen pt-41 lg:pt-20">{children}</main>
         <Footer />
       </body>
     </html>

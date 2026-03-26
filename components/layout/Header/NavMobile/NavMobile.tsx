@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
+import * as motion from 'motion/react-client'
 
 import { ChevronRight } from '@/components/ui/icons'
 import { Logo } from '@/components/ui/Logo/Logo'
@@ -8,15 +8,38 @@ import { navMock } from './NavMobile.mock'
 import { NavMobileProps } from './NavMobile.types'
 
 export const NavMobile = ({ isOpen }: NavMobileProps) => {
+  const springTransition = {
+    type: 'spring' as const,
+    stiffness: 700,
+    damping: 20,
+  }
+
+  const menuVariants = {
+    hidden: {
+      y: '-100%',
+      transition: springTransition,
+    },
+    visible: {
+      y: '0%',
+      opacity: 1,
+      transition: springTransition,
+    },
+    exit: {
+      y: '0%',
+      opacity: 0,
+      transition: {
+        duration: 0.3,
+      },
+    },
+  }
+
   return (
-    <div
-      className={cn(
-        'absolute top-full left-0 w-full origin-top transition-all duration-300 ease-out',
-        isOpen
-          ? 'pointer-events-auto visible translate-y-0 opacity-100'
-          : 'pointer-events-none invisible -translate-y-25 opacity-0',
-      )}
+    <motion.div
       aria-hidden={!isOpen}
+      initial="hidden"
+      animate={isOpen ? 'visible' : 'hidden'}
+      exit="exit"
+      variants={menuVariants}
     >
       <nav className="bg-background-light px-4 py-10">
         <ul className="text-accent-500 font-lora flex flex-col gap-6 text-base/normal font-medium">
@@ -80,6 +103,6 @@ export const NavMobile = ({ isOpen }: NavMobileProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
