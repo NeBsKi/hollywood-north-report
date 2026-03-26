@@ -16,4 +16,11 @@ body {
     overflow: hidden;
     overscroll-behavior: none;
   }
+
+  html:has(header[data-mobile-menu-open='true']) main,
+  body:has(header[data-mobile-menu-open='true']) main {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+  }
 }

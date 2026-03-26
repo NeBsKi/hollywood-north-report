@@ -41,14 +41,11 @@ export const NavMobile = ({ isOpen }: NavMobileProps) => {
       exit="exit"
       variants={menuVariants}
     >
-      <nav className="bg-background-light px-4 py-10">
-        <ul className="text-accent-500 font-lora flex flex-col gap-6 text-base/normal font-medium">
+      <nav className="bg-background-light px-4 py-6">
+        <ul className="text-accent-500 font-lora flex flex-col gap-4 text-base/normal font-medium">
           {navMock.map(({ href, children }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                className="border-accent-500/10 flex items-center justify-between border-b pb-6"
-              >
+            <li key={href} className="border-accent-500/10 border-b pb-4 last:border-0 last:pb-0">
+              <Link href={href} className="flex items-center justify-between">
                 {children}
                 <ChevronRight />
               </Link>
