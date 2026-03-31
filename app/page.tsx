@@ -1,148 +1,281 @@
-import { FilmCard } from '@/components/ui/FilmCard'
 import Link from 'next/link'
+import { FilmCard } from '@/components/ui/film-card'
+import { Section } from '@/components/ui/section'
 
 export default function Home() {
   return (
     <>
-      <div>
+      <Section
+        title="Latest Film Reviews"
+        viewMoreButton={{ href: '/reviews' }}
+        className="mb-12 md:mb-20 xl:mb-26"
+      >
         <Link href="/">
           <FilmCard
             title="Brooklyn’s Finest: Three Clocks, No Clean Way Out"
             author="Alison Foreman"
             category="Film Review"
             description="Brooklyn’s Finest worked for me largely because the cast never lets the movie down, even when the structure feels heavy."
-            imageUrl="/film-poster.jpg"
+            imageUrl="/images/image-23.png"
             hasBackground
           />
         </Link>
-      </div>
-      <div className="mt-20 flex justify-between gap-6">
-        <FilmCard
-          title="Blow Out: When Obsession, Noise, and Consequence Collide"
-          author="Ryan Lattanzio"
-          category="Film Review"
-          imageUrl="/film-poster.jpg"
-          contentAlignment="center"
-          contentClassName="py-4"
-          orientation="vertical"
-        />
-        <FilmCard
-          title="Out of Time: Denzel Washington vs. the Clock (and Everyone Else)"
-          author="Alison Foreman"
-          category="Film Review"
-          imageUrl="/film-poster.jpg"
-          contentAlignment="center"
-          contentClassName="py-4"
-          orientation="vertical"
-        />
-        <FilmCard
-          title="Gang Related: When Sobriety Shows Up and the Story Gets Serious"
-          author="Alison Foreman"
-          category="Film Review"
-          imageUrl="/film-poster.jpg"
-          contentAlignment="center"
-          contentClassName="py-4"
-          orientation="vertical"
-        />
-      </div>
-      <div className="mt-20">
-        <div className="max-w-xl">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            category="Film Review"
-            contentClassName="py-4"
-            imageUrl="/film-poster.jpg"
-            description="Brooklyn’s Finest worked for me largely because the cast never lets the movie down, even when the structure feels heavy."
-            orientation="vertical"
-          />
+        <div className="mt-12 flex flex-col justify-between gap-8 sm:mt-20 sm:flex-row sm:gap-6">
+          <Link href="/">
+            <FilmCard
+              title="Blow Out: When Obsession, Noise, and Consequence Collide"
+              author="Ryan Lattanzio"
+              category="Film Review"
+              imageUrl="/images/image-46.png"
+              contentAlignment="center"
+              contentClassName="py-4"
+              orientation="vertical"
+            />
+          </Link>
+          <Link href="/">
+            <FilmCard
+              title="Out of Time: Denzel Washington vs. the Clock (and Everyone Else)"
+              author="Alison Foreman"
+              category="Film Review"
+              imageUrl="/images/image-47.png"
+              contentAlignment="center"
+              contentClassName="py-4"
+              orientation="vertical"
+            />
+          </Link>
+          <Link href="/">
+            <FilmCard
+              title="Gang Related: When Sobriety Shows Up and the Story Gets Serious"
+              author="Alison Foreman"
+              category="Film Review"
+              imageUrl="/images/image-48.png"
+              contentAlignment="center"
+              contentClassName="py-4"
+              orientation="vertical"
+            />
+          </Link>
         </div>
-      </div>
-      <div className="mt-20">
-        <div className="max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            category="Film Review"
-            orientation="vertical"
-            contentAlignment="center"
-          />
+      </Section>
+
+      <Section
+        title="Industries & Awards"
+        viewMoreButton={{ href: '/industries-awards' }}
+        className="mb-12 md:mb-20 xl:mb-26"
+      >
+        <div className="flex flex-col justify-between gap-12 sm:flex-row sm:gap-0">
+          <div className="w-full pr-0 sm:w-1/2 sm:pr-8 lg:pr-26">
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                contentClassName="py-4"
+                imageUrl="/images/image-6.png"
+                description="Brooklyn’s Finest worked for me largely because the cast never lets the movie down, even when the structure feels heavy."
+                orientation="vertical"
+              />
+            </Link>
+          </div>
+          <div className="border-accent-500/10 flex w-full flex-col justify-between gap-6 border-x px-8 sm:w-1/2 sm:px-10">
+            <Link href="/" className="border-accent-500/10 border-b pb-6">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                orientation="vertical"
+                contentAlignment="center"
+              />
+            </Link>
+            <Link href="/" className="border-accent-500/10 border-b pb-6">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                orientation="vertical"
+                contentAlignment="center"
+              />
+            </Link>
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                orientation="vertical"
+                contentAlignment="center"
+              />
+            </Link>
+          </div>
         </div>
-      </div>
-      <div className="mt-20">
-        <div className="max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            contentSize="small"
-          />
+      </Section>
+
+      <Section title="Selected Essays" className="mb-12 md:mb-20 xl:mb-26">
+        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:gap-8 lg:gap-14">
+          <div className="flex w-full flex-col gap-4 sm:w-1/3 lg:w-1/4">
+            <Link href="/" className="border-accent-500/10 border-b pb-4">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                numericId={1}
+                numericIdSize="small"
+                contentSize="small"
+              />
+            </Link>
+            <Link href="/" className="border-accent-500/10 border-b pb-4">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                numericId={2}
+                numericIdSize="small"
+                contentSize="small"
+              />
+            </Link>
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                numericId={3}
+                numericIdSize="small"
+                contentSize="small"
+              />
+            </Link>
+          </div>
+          <div className="flex w-full flex-col justify-between gap-8 px-0 sm:w-2/3 sm:flex-row sm:gap-6 md:w-3/4 md:px-8">
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                imageUrl="/images/image-49.png"
+                imageWrapperClassName="mx-0 xl:mx-8"
+                contentAlignment="center"
+                contentClassName="py-4"
+                orientation="vertical"
+              />
+            </Link>
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                imageUrl="/images/image-50.png"
+                imageWrapperClassName="mx-0 xl:mx-8"
+                contentAlignment="center"
+                contentClassName="py-4"
+                orientation="vertical"
+              />
+            </Link>
+          </div>
         </div>
-      </div>
-      <div className="mt-20">
-        <div className="mb-6 max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            numericId={1}
-            numericIdSize="small"
-            contentSize="small"
-          />
+      </Section>
+
+      <Section title="Editor's Selections" className="mb-12 md:mb-20 xl:mb-26">
+        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:gap-0">
+          <div className="flex w-full flex-col gap-4 sm:w-1/4">
+            <Link href="/" className="border-accent-500/10 border-b pb-4">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                contentSize="small"
+              />
+            </Link>
+            <Link href="/" className="border-accent-500/10 border-b pb-4">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                contentSize="small"
+              />
+            </Link>
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                contentSize="small"
+              />
+            </Link>
+          </div>
+          <div className="w-full px-0 sm:w-1/2 sm:px-10">
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                category="Film Review"
+                imageUrl="/images/image-51.png"
+                imageWrapperClassName="mx-0 xl:mx-16"
+                contentAlignment="center"
+                contentClassName="py-4"
+                orientation="vertical"
+              />
+            </Link>
+          </div>
+          <div className="flex w-full flex-col gap-4 sm:w-1/4">
+            <Link href="/" className="border-accent-500/10 border-b pb-4">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                contentSize="small"
+              />
+            </Link>
+            <Link href="/" className="border-accent-500/10 border-b pb-4">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                contentSize="small"
+              />
+            </Link>
+            <Link href="/">
+              <FilmCard
+                title="Blow Out: When Obsession, Noise, and Consequence Collide"
+                author="Ryan Lattanzio"
+                orientation="vertical"
+                contentSize="small"
+              />
+            </Link>
+          </div>
         </div>
-        <div className="mb-6 max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            numericId={2}
-            numericIdSize="small"
-            contentSize="small"
-          />
+      </Section>
+
+      <Section title="You May Also Like" className="mb-12 md:mb-20 xl:mb-26">
+        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:gap-6">
+          <Link href="/" className="border-accent-500/10 border-b pb-4">
+            <FilmCard
+              title="Blow Out: When Obsession, Noise, and Consequence Collide"
+              author="Ryan Lattanzio"
+              orientation="vertical"
+              numericId={1}
+              numericIdSize="large"
+              contentSize="small"
+            />
+          </Link>
+          <Link href="/" className="border-accent-500/10 border-b pb-4">
+            <FilmCard
+              title="Blow Out: When Obsession, Noise, and Consequence Collide"
+              author="Ryan Lattanzio"
+              orientation="vertical"
+              numericId={2}
+              numericIdSize="large"
+              contentSize="small"
+            />
+          </Link>
+          <Link href="/" className="border-accent-500/10 border-b pb-4">
+            <FilmCard
+              title="Blow Out: When Obsession, Noise, and Consequence Collide"
+              author="Ryan Lattanzio"
+              orientation="vertical"
+              numericId={3}
+              numericIdSize="large"
+              contentSize="small"
+            />
+          </Link>
         </div>
-        <div className="max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            numericId={3}
-            numericIdSize="small"
-            contentSize="small"
-          />
-        </div>
-      </div>
-      <div className="mt-20">
-        <div className="mb-6 max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            numericId={1}
-            numericIdSize="large"
-            contentSize="small"
-          />
-        </div>
-        <div className="mb-6 max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            numericId={2}
-            numericIdSize="large"
-            contentSize="small"
-          />
-        </div>
-        <div className="max-w-md">
-          <FilmCard
-            title="Blow Out: When Obsession, Noise, and Consequence Collide"
-            author="Ryan Lattanzio"
-            orientation="vertical"
-            numericId={3}
-            numericIdSize="large"
-            contentSize="small"
-          />
-        </div>
-      </div>
+      </Section>
     </>
   )
 }

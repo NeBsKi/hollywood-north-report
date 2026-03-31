@@ -46,7 +46,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${brandon.variable} ${lora.variable} ${imFell.variable} antialiased`}>
         <Header />
-        <main className="container min-h-screen pt-41 lg:pt-20">{children}</main>
+        <main className="min-h-screen pt-25 lg:pt-0">{children}</main>
         <Footer />
       </body>
     </html>

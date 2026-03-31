@@ -6,7 +6,7 @@
 @import '../styles/_typography.css';
 
 body {
-  background: var(--color-background-dark);
+  background: var(--color-background-light);
   font-family: var(--font-family-sans);
 }
 
