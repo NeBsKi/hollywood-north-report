@@ -3,7 +3,7 @@ import { tv } from 'tailwind-variants'
 export const filmCardVariants = tv({
   slots: {
     container: 'flex gap-10 w-full',
-    imageWrapper: 'relative h-58 rounded-md overflow-hidden',
+    imageWrapper: 'relative h-58 rounded-md overflow-hidden shrink-0',
     content: 'font-brandon relative',
     category: 'text-sm/6 lg:text-base/6 text-primary-700 mb-2 font-medium',
     title:
@@ -27,10 +27,15 @@ export const filmCardVariants = tv({
       },
     },
     orientation: {
-      horizontal: 'flex-col md:flex-row',
+      horizontal: {
+        container: 'flex-col sm:flex-row',
+        title: 'line-clamp-2',
+        description: 'line-clamp-3',
+      },
       vertical: {
         container: 'flex-col gap-0',
         imageWrapper: '',
+        title: 'line-clamp-3',
         content: 'w-full p-0',
       },
     },
@@ -49,8 +54,16 @@ export const filmCardVariants = tv({
       orientation: 'horizontal',
       class: {
         container:
-          'flex-col sm:flex-row px-4 py-6 md:p-10 bg-background-light items-center rounded-2xl drop-shadow-[0px_2px_6px_0px_rgba(0,0,0,0.03)]',
+          'flex-col sm:flex-row px-4 py-6 md:p-10 bg-background-light items-center rounded-2xl drop-shadow-xs',
         imageWrapper: 'w-full md:w-1/2',
+      },
+    },
+    {
+      hasBackground: false,
+      orientation: 'horizontal',
+      class: {
+        container: 'gap-6',
+        imageWrapper: '',
       },
     },
     {
