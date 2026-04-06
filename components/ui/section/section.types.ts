@@ -7,4 +7,5 @@ export interface SectionProps {
   children: React.ReactNode
   className?: string
   viewMoreButton?: ViewMoreButtonProps
+  boxed?: boolean
 }

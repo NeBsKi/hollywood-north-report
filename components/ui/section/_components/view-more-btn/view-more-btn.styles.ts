@@ -1,7 +1,7 @@
 export const viewMoreBtnVariants = {
   slots: {
     container: {
-      base: 'group bg-primary-600 relative mt-10 sm:mt-16 lg:mt-20 xl:mt-26 h-[4.375rem] md:h-[8.375rem] w-full overflow-hidden transition-[clip-path] duration-500 [clip-path:polygon(0_70%,100%_0,100%_100%,0_100%)] md:[clip-path:polygon(0_80%,100%_0,100%_100%,0_100%)]',
+      base: 'group bg-primary-600 relative h-[4.375rem] md:h-[8.375rem] w-full overflow-hidden transition-[clip-path] duration-500 [clip-path:polygon(0_70%,100%_0,100%_100%,0_100%)] md:[clip-path:polygon(0_80%,100%_0,100%_100%,0_100%)]',
     },
     link: {
       base: 'font-lora text-white-500 group-hover:text-primary-900 absolute bottom-2 md:bottom-6 left-1/2 z-2 flex -translate-x-1/2 items-center gap-1 text-sm/6 md:text-base/6 font-medium transition-colors duration-500',
