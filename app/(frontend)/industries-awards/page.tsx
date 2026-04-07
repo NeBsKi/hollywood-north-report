@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { FilmCard } from '@/components/ui/film-card'
 import { Section } from '@/components/ui/section'
+import { PaginationClient } from '@/components/ui/pagination'
 
 export default function IndustriesAwardsPage() {
   return (
@@ -123,6 +124,9 @@ export default function IndustriesAwardsPage() {
             </Link>
           </div>
         </div>
+      </div>
+      <div className="mt-26 flex justify-center">
+        <PaginationClient total={99} />
       </div>
     </Section>
   )

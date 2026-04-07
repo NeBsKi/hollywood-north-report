@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { FilmCard } from '@/components/ui/film-card/film-card'
 import { Section } from '@/components/ui/section'
+import { PaginationClient } from '@/components/ui/pagination'
 
 export default function ReviewsPage() {
   return (
@@ -116,6 +117,9 @@ export default function ReviewsPage() {
             orientation="vertical"
           />
         </Link>
+      </div>
+      <div className="mt-26 flex justify-center">
+        <PaginationClient total={99} />
       </div>
     </Section>
   )
