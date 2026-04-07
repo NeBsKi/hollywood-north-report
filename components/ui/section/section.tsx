@@ -8,12 +8,14 @@ export const Section = ({
   className,
   viewMoreButton,
   boxed = false,
+  hasBackground = true,
 }: SectionProps) => {
   return (
     <section
-      className={cn('bg-background-dark py-12 md:py-20', className, {
+      className={cn('bg-transparent py-12 md:py-20', className, {
         'pb-0 md:pb-0': viewMoreButton,
         'md:py-14': boxed,
+        'bg-background-dark': hasBackground,
       })}
     >
       {title && (

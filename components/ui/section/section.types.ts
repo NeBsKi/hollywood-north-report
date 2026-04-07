@@ -8,4 +8,5 @@ export interface SectionProps {
   className?: string
   viewMoreButton?: ViewMoreButtonProps
   boxed?: boolean
+  hasBackground?: boolean
 }

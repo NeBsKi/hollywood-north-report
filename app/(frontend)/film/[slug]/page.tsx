@@ -3,8 +3,7 @@ import Image from 'next/image'
 
 import { FilmCard } from '@/components/ui/film-card'
 import { Section } from '@/components/ui/section'
-import { FilmHeader } from '@/components/features/single-film/film-header'
-import { FilmBody } from '@/components/features/single-film/film-body'
+import { FilmHeader, FilmBody } from '@/components/features'
 
 export default async function FilmPage({ params }: { params: { slug: string } }) {
   return (
