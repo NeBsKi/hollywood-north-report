@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { FilmCard } from '@/components/ui/film-card/film-card'
 import { Section } from '@/components/ui/section'
 import { PaginationClient } from '@/components/ui/pagination'
+import { Dropdown } from '@/components/ui/dropdown'
 
 export default function ReviewsPage() {
   return (
@@ -17,6 +18,13 @@ export default function ReviewsPage() {
           hasBackground
         />
       </Link>
+      {/* <div className="mt-20 flex justify-between gap-4">
+        <div />
+        <div className="flex gap-4">
+          <Dropdown label="Category" variation="form" multiple />
+          <Dropdown label="Genre" variation="form" multiple />
+        </div>
+      </div> */}
       <div className="gird-cols-1 mt-12 grid gap-5 sm:mt-20 sm:grid-cols-3 lg:gap-6">
         <Link href="/film/blow-out-when-obsession-noise-and-consequence-collide">
           <FilmCard
