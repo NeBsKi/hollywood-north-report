@@ -2,7 +2,7 @@ import Link from 'next/link'
 import * as motion from 'motion/react-client'
 
 import { ChevronRight } from '@/components/icons'
-import { Logo } from '@/components/ui/logo/logo'
+import { Logo } from '@/components/shared/logo/logo'
 
 import { navbarMock } from './navbar-mobile.mock'
 import { NavMobileProps } from './navbar-mobile.types'

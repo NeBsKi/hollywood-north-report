@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { FilmCard } from '@/components/ui/film-card'
-import { Section } from '@/components/ui/section'
+import { FilmCard } from '@/components/shared/film-card'
+import { Section } from '@/components/shared/section'
 
 export default function Home() {
   return (

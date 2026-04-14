@@ -1,6 +1,6 @@
 import * as motion from 'motion/react-client'
 import { ContactForm } from '@/components/features'
-import { Section } from '@/components/ui/section'
+import { Section } from '@/components/shared/section'
 
 export default function ContactPage() {
   return (

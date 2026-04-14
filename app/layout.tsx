@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
-import { Lora, IM_Fell_Great_Primer_SC } from 'next/font/google'
+import { Lora, IM_Fell_Great_Primer_SC, Geist } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Header, Footer } from '@/components/layout'
 import './globals.css'
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const brandon = localFont({
   src: [
@@ -43,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${brandon.variable} ${lora.variable} ${imFell.variable} antialiased`}>
         <Header />
         <main className="pt-25 lg:pt-0">{children}</main>

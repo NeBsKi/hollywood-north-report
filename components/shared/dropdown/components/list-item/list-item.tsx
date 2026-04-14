@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 import type { DropdownProps, DropdownOption, SelectedValue } from '../../dropdown.types'
 import type { UseDropdownResult } from '../../hooks/useDropdown.types'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Checkbox } from '@/components/shared/checkbox'
 
 interface ListItemProps extends HTMLAttributes<HTMLLIElement> {
   item: DropdownOption

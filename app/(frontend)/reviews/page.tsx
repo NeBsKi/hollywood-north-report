@@ -1,9 +1,9 @@
 import Link from 'next/link'
 
-import { FilmCard } from '@/components/ui/film-card/film-card'
-import { Section } from '@/components/ui/section'
-import { PaginationClient } from '@/components/ui/pagination'
-import { Dropdown } from '@/components/ui/dropdown'
+import { FilmCard } from '@/components/shared/film-card/film-card'
+import { Section } from '@/components/shared/section'
+import { PaginationClient } from '@/components/shared/pagination'
+import { Dropdown } from '@/components/shared/dropdown'
 
 export default function ReviewsPage() {
   return (

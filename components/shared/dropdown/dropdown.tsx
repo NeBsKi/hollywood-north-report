@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { useResizeDetector } from 'react-resize-detector'
 
-import { Portal } from '@/components/ui/portal'
+import { Portal } from '@/components/shared/portal'
 
 import type { DropdownProps } from './dropdown.types'
 import { useDropdown } from './hooks/useDropdown'
