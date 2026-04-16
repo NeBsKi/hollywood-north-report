@@ -8,12 +8,12 @@ import { ChevronRight } from '@/components/icons'
 
 interface ToggleButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
   renderButtonLabel: DropdownProps['renderButtonLabel']
-  label: string
+  label?: string
   isOpen: boolean
   noBorder: boolean
   selectedOption: DropdownOption[] | DropdownOption
   variation: NonNullable<DropdownProps['variation']>
-  error: NonNullable<DropdownProps['error']>
+  error?: NonNullable<DropdownProps['error']>
   valid: DropdownProps['valid']
   shouldShowAsterisk?: boolean
   readOnly: DropdownProps['readOnly']
