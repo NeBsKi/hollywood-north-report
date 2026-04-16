@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { Pin, Send } from '@/components/icons'
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/shared/logo'
 
 export const Footer = () => {
   return (

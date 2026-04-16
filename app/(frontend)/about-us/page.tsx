@@ -1,5 +1,5 @@
 import * as motion from 'motion/react-client'
-import { Section } from '@/components/ui/section'
+import { Section } from '@/components/shared/section'
 
 export default function AboutUsPage() {
   return (

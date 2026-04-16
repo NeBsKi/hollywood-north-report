@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { useResizeDetector } from 'react-resize-detector'
 
-import { Portal } from '@/components/ui/portal'
+import { Portal } from '@/components/shared/portal'
 
 import type { DropdownProps } from './dropdown.types'
 import { useDropdown } from './hooks/useDropdown'
@@ -29,7 +29,6 @@ export const Dropdown = ({
   error,
   valid = false,
   disabled = false,
-  required = false,
   downshiftId,
   footnote,
   ...rest
@@ -72,9 +71,11 @@ export const Dropdown = ({
   )
 
   const handleToggleBtnRef = useCallback(
-    (ref: HTMLButtonElement) => {
-      setDropdownBtnEl(ref)
-      toggleBtnProps.ref(ref)
+    (node: HTMLButtonElement) => {
+      setDropdownBtnEl(node)
+      if (toggleBtnProps.ref && 'current' in toggleBtnProps.ref) {
+        toggleBtnProps.ref.current = node
+      }
     },
     [toggleBtnProps],
   )
@@ -83,7 +84,7 @@ export const Dropdown = ({
     <div ref={rootRef} {...rest}>
       <ToggleButton
         isOpen={isOpen}
-        selectedOption={selectedOption}
+        selectedOption={selectedOption ?? []}
         renderButtonLabel={renderButtonLabel}
         label={label}
         noBorder={noBorder}
@@ -91,7 +92,6 @@ export const Dropdown = ({
         error={error}
         valid={valid}
         disabled={disabled}
-        required={required}
         readOnly={readOnly}
         footnote={footnote}
         {...toggleBtnProps}

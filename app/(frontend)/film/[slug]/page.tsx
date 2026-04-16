@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { FilmCard } from '@/components/ui/film-card'
-import { Section } from '@/components/ui/section'
+import { FilmCard } from '@/components/shared/film-card'
+import { Section } from '@/components/shared/section'
 import { FilmHeader, FilmBody } from '@/components/features'
 
 export default async function FilmPage({ params }: { params: { slug: string } }) {

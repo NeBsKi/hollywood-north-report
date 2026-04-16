@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { AnimatePresence } from 'motion/react'
 
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/shared/logo'
 import { Search } from '@/components/icons/Search'
 
 import { SearchInput } from './_components/search-input'

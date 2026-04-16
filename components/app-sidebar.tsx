@@ -1,0 +1,115 @@
+import * as React from 'react'
+import Link from 'next/link'
+
+import { NavMain } from '@/components/nav-main'
+import { NavUser } from '@/components/nav-user'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+} from '@/components/ui/sidebar'
+import {
+  BookOpenIcon,
+  LayoutDashboardIcon,
+  FileTextIcon,
+  UsersIcon,
+  GalleryVerticalEnd,
+} from 'lucide-react'
+import { getServerSession } from '@/lib/get-session'
+import { Logo } from './shared/logo'
+
+const data = {
+  navMain: [
+    {
+      title: 'Dashboard',
+      url: '/admin',
+      icon: <LayoutDashboardIcon />,
+      isActive: true,
+    },
+    {
+      title: 'Posts',
+      url: '#',
+      icon: <FileTextIcon />,
+      items: [
+        {
+          title: 'All Posts',
+          url: '/admin/posts',
+        },
+        {
+          title: 'Create Post',
+          url: '/admin/posts/new',
+        },
+      ],
+    },
+    {
+      title: 'Categories',
+      url: '#',
+      icon: <BookOpenIcon />,
+      items: [
+        {
+          title: 'All Categories',
+          url: '/admin/categories',
+        },
+        {
+          title: 'Create Category',
+          url: '/admin/categories/new',
+        },
+      ],
+    },
+    {
+      title: 'Users',
+      url: '#',
+      icon: <UsersIcon />,
+      items: [
+        {
+          title: 'All Users',
+          url: '/admin/users',
+        },
+        {
+          title: 'Create User',
+          url: '/admin/users/new',
+        },
+      ],
+    },
+  ],
+}
+
+export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const session = await getServerSession()
+  const user = session?.user
+
+  if (!user) return null
+
+  return (
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/admin">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <Logo className="h-5 max-w-5" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-medium">Hollywood North Report</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+      </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
+  )
+}
