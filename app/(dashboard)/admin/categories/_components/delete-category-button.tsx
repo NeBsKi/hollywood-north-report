@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { deleteCategoryAction } from './actions'
+import { deleteCategoryAction } from '../_lib/actions'
 
 export function DeleteCategoryMenuItem({
   id,

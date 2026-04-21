@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { CategoryRow } from '../categories/columns'
+import { CategoryRow } from '../categories/_components/columns'
 
 export type Post = {
   id: string

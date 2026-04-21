@@ -1,11 +1,10 @@
 'use server'
 
 import { z } from 'zod'
-import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
-import { signInSchema } from '@/lib/schemas/auth'
+import { signInSchema } from './schemas'
 
 export type AuthFormState = {
   fieldErrors?: Record<string, string[]>
@@ -34,12 +33,4 @@ export async function signInAction(
   }
 
   return redirect('/admin')
-}
-
-export async function signOutAction() {
-  await auth.api.signOut({
-    headers: await headers(),
-  })
-
-  redirect('/signin')
 }

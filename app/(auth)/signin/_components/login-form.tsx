@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { SubmitButton } from '@/components/submit-button'
-import { signInAction, type AuthFormState } from '@/app/actions/auth'
+import { signInAction, type AuthFormState } from '../_lib/actions'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const [state, formAction] = useActionState<AuthFormState, FormData>(signInAction, {})

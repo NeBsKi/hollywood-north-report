@@ -10,7 +10,7 @@ import {
   createCategoryAction,
   updateCategoryAction,
   type CategoryActionState,
-} from './actions'
+} from '../_lib/actions'
 
 type Initial = { id: string; name: string; slug: string } | undefined
 

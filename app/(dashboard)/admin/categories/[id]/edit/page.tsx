@@ -7,8 +7,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { getCategory } from '../../queries'
-import { CategoryForm } from '../../category-form'
+import { getCategory } from '../../_lib/queries'
+import { CategoryForm } from '../../_components/category-form'
 
 export default async function EditCategoryPage({
   params,

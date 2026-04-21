@@ -6,7 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { CategoryForm } from '../category-form'
+import { CategoryForm } from '../_components/category-form'
 
 export default function NewCategoryPage() {
   return (

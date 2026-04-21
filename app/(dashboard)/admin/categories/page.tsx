@@ -6,10 +6,10 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from '@/components/ui/breadcrumb'
-import { columns } from './columns'
-import { DataTable } from './data-table'
-import { listCategories } from './queries'
-import { listParams } from './schemas'
+import { columns } from './_components/columns'
+import { DataTable } from './_components/data-table'
+import { listCategories } from './_lib/queries'
+import { listParams } from './_lib/schemas'
 
 type SP = Promise<Record<string, string | undefined>>
 

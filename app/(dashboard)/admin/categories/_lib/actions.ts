@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import prisma from '@/lib/prisma'
-import { requireAdmin } from '@/lib/roles'
+import { requireAdmin, requireRole } from '@/lib/roles'
 import { isUniqueViolation } from '@/lib/prisma-errors'
 import { categoryInput } from './schemas'
 
@@ -13,14 +13,13 @@ export type CategoryActionState = {
   formError?: string
 }
 
-const parse = (formData: FormData) =>
-  categoryInput.safeParse(Object.fromEntries(formData))
+const parse = (formData: FormData) => categoryInput.safeParse(Object.fromEntries(formData))
 
 export async function createCategoryAction(
   _prev: CategoryActionState,
   formData: FormData,
 ): Promise<CategoryActionState> {
-  await requireAdmin()
+  await requireRole(['ADMIN', 'USER'])
 
   const parsed = parse(formData)
   if (!parsed.success) {
@@ -45,7 +44,7 @@ export async function updateCategoryAction(
   _prev: CategoryActionState,
   formData: FormData,
 ): Promise<CategoryActionState> {
-  await requireAdmin()
+  await requireRole(['ADMIN', 'USER'])
 
   const parsed = parse(formData)
   if (!parsed.success) {
@@ -67,7 +66,7 @@ export async function updateCategoryAction(
 }
 
 export async function deleteCategoryAction(id: string) {
-  await requireAdmin()
+  await requireRole(['ADMIN', 'USER'])
   try {
     await prisma.category.delete({ where: { id } })
   } catch {
