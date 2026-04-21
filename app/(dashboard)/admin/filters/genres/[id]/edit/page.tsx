@@ -7,20 +7,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { requireAdmin } from '@/lib/require-role'
-import type { Role } from '@/lib/roles'
-import { getUser } from '../../_lib/queries'
-import { UserForm } from '../../_components/user-form'
+import { getGenre } from '../../_lib/queries'
+import { GenreForm } from '../../_components/genre-form'
 
-export default async function EditUserPage({
+export default async function EditGenrePage({
   params,
 }: {
   params: Promise<{ id: string }>
 }) {
-  await requireAdmin()
   const { id } = await params
-  const user = await getUser(id)
-  if (!user) notFound()
+  const genre = await getGenre(id)
+  if (!genre) notFound()
 
   return (
     <div>
@@ -28,7 +25,7 @@ export default async function EditUserPage({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/filters/genres">Genres</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -37,12 +34,11 @@ export default async function EditUserPage({
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <UserForm
+      <GenreForm
         initial={{
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role as Role,
+          id: genre.id,
+          name: genre.name,
+          slug: genre.slug,
         }}
       />
     </div>

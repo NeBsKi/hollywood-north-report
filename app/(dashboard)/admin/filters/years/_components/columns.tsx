@@ -1,7 +1,8 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, Pencil } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -11,36 +12,33 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import Link from 'next/link'
-import { Role } from '@/lib/roles'
+import { DeleteYearMenuItem } from './delete-year-button'
 
-export type User = {
+export type YearRow = {
   id: string
-  email: string
-  role: Role
+  value: number
   createdAt: Date
   updatedAt: Date
-  isActive: boolean
 }
 
-export const columns: ColumnDef<User>[] = [
+const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' })
+
+export const columns: ColumnDef<YearRow>[] = [
+  { accessorKey: 'value', header: 'Year' },
   {
-    accessorKey: 'email',
-    header: 'Email',
+    accessorKey: 'createdAt',
+    header: 'Created',
+    cell: ({ row }) => fmt.format(row.original.createdAt),
   },
   {
-    accessorKey: 'role',
-    header: 'Role',
-  },
-  {
-    accessorKey: 'isActive',
-    header: 'Active',
+    accessorKey: 'updatedAt',
+    header: 'Updated',
+    cell: ({ row }) => fmt.format(row.original.updatedAt),
   },
   {
     id: 'actions',
     cell: ({ row }) => {
-      const user = row.original
-
+      const year = row.original
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -49,16 +47,16 @@ export const columns: ColumnDef<User>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="min-w-40">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.id)}>
-              Copy user ID
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/filters/years/${year.id}/edit`}>
+                <Pencil />
+                Edit
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href={`/admin/users/${user.id}/edit`}>Edit user</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete user</DropdownMenuItem>
+            <DeleteYearMenuItem id={year.id} value={year.value} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

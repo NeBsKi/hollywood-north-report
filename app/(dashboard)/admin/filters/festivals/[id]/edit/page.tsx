@@ -7,20 +7,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { requireAdmin } from '@/lib/require-role'
-import type { Role } from '@/lib/roles'
-import { getUser } from '../../_lib/queries'
-import { UserForm } from '../../_components/user-form'
+import { getFestival } from '../../_lib/queries'
+import { FestivalForm } from '../../_components/festival-form'
 
-export default async function EditUserPage({
+export default async function EditFestivalPage({
   params,
 }: {
   params: Promise<{ id: string }>
 }) {
-  await requireAdmin()
   const { id } = await params
-  const user = await getUser(id)
-  if (!user) notFound()
+  const festival = await getFestival(id)
+  if (!festival) notFound()
 
   return (
     <div>
@@ -28,7 +25,7 @@ export default async function EditUserPage({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/filters/festivals">Festivals</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -37,12 +34,11 @@ export default async function EditUserPage({
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <UserForm
+      <FestivalForm
         initial={{
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role as Role,
+          id: festival.id,
+          name: festival.name,
+          slug: festival.slug,
         }}
       />
     </div>

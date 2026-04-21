@@ -6,19 +6,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { requireAdmin } from '@/lib/require-role'
-import { UserForm } from '../_components/user-form'
+import { FestivalForm } from '../_components/festival-form'
 
-export default async function NewUserPage() {
-  await requireAdmin()
-
+export default function NewFestivalPage() {
   return (
     <div>
       <div className="mb-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/filters/festivals">Festivals</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -27,7 +24,7 @@ export default async function NewUserPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <UserForm />
+      <FestivalForm />
     </div>
   )
 }

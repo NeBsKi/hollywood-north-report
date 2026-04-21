@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal, Pencil } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,35 +13,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { DeleteCategoryMenuItem } from './delete-category-button'
+import type { Role } from '@/lib/roles'
+import { DeleteUserMenuItem } from './delete-user-button'
 
-export type CategoryRow = {
+export type UserRow = {
   id: string
   name: string
-  slug: string
+  email: string
+  role: Role
   createdAt: Date
   updatedAt: Date
 }
 
 const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' })
 
-export const columns: ColumnDef<CategoryRow>[] = [
+export const buildColumns = (currentUserId: string): ColumnDef<UserRow>[] => [
   { accessorKey: 'name', header: 'Name' },
-  { accessorKey: 'slug', header: 'Slug' },
+  { accessorKey: 'email', header: 'Email' },
+  {
+    accessorKey: 'role',
+    header: 'Role',
+    cell: ({ row }) => (
+      <Badge variant={row.original.role === 'ADMIN' ? 'default' : 'secondary'}>
+        {row.original.role}
+      </Badge>
+    ),
+  },
   {
     accessorKey: 'createdAt',
     header: 'Created',
     cell: ({ row }) => fmt.format(row.original.createdAt),
   },
   {
-    accessorKey: 'updatedAt',
-    header: 'Updated',
-    cell: ({ row }) => fmt.format(row.original.updatedAt),
-  },
-  {
     id: 'actions',
     cell: ({ row }) => {
-      const category = row.original
+      const user = row.original
+      const isSelf = user.id === currentUserId
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -52,13 +60,17 @@ export const columns: ColumnDef<CategoryRow>[] = [
           <DropdownMenuContent align="end" className="min-w-40">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/admin/categories/${category.id}/edit`}>
+              <Link href={`/admin/users/${user.id}/edit`}>
                 <Pencil />
                 Edit
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DeleteCategoryMenuItem id={category.id} name={category.name} />
+            {!isSelf && (
+              <>
+                <DropdownMenuSeparator />
+                <DeleteUserMenuItem id={user.id} label={user.name || user.email} />
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       )

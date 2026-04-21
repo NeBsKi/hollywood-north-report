@@ -7,22 +7,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import {
-  createCategoryAction,
-  updateCategoryAction,
-  type CategoryActionState,
+  createFestivalAction,
+  updateFestivalAction,
+  type FestivalActionState,
 } from '../_lib/actions'
 
 type Initial = { id: string; name: string; slug: string } | undefined
 
-export function CategoryForm({ initial }: { initial?: Initial }) {
+export function FestivalForm({ initial }: { initial?: Initial }) {
   const action = initial
-    ? updateCategoryAction.bind(null, initial.id)
-    : createCategoryAction
+    ? updateFestivalAction.bind(null, initial.id)
+    : createFestivalAction
 
-  const [state, formAction] = useActionState<CategoryActionState, FormData>(
-    action,
-    {},
-  )
+  const [state, formAction] = useActionState<FestivalActionState, FormData>(action, {})
 
   return (
     <form action={formAction} className="max-w-xl space-y-6">
@@ -38,17 +35,13 @@ export function CategoryForm({ initial }: { initial?: Initial }) {
         name="slug"
         defaultValue={initial?.slug}
         error={state.fieldErrors?.slug?.[0]}
-        placeholder="e.g. film-industry"
+        placeholder="e.g. toronto-international-film-festival"
       />
-      {state.formError && (
-        <p className="text-destructive text-sm">{state.formError}</p>
-      )}
+      {state.formError && <p className="text-destructive text-sm">{state.formError}</p>}
       <div className="flex items-center gap-2">
-        <SubmitButton>
-          {initial ? 'Save changes' : 'Create category'}
-        </SubmitButton>
+        <SubmitButton>{initial ? 'Save changes' : 'Create festival'}</SubmitButton>
         <Button asChild variant="ghost">
-          <Link href="/admin/categories">Cancel</Link>
+          <Link href="/admin/filters/festivals">Cancel</Link>
         </Button>
       </div>
     </form>

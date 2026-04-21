@@ -86,7 +86,102 @@ model Category {
   slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  posts     PostCategory[]
 
   @@index([name])
   @@map("category")
+}
+
+model Genre {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     PostGenre[]
+
+  @@index([name])
+  @@map("genre")
+}
+
+model Festival {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     PostFestival[]
+
+  @@index([name])
+  @@map("festival")
+}
+
+model Year {
+  id        String   @id @default(cuid())
+  value     Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     PostYear[]
+
+  @@index([value])
+  @@map("year")
+}
+
+model Post {
+  id         String         @id @default(cuid())
+  title      String
+  slug       String         @unique
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  categories PostCategory[]
+  genres     PostGenre[]
+  festivals  PostFestival[]
+  years      PostYear[]
+
+  @@index([title])
+  @@map("post")
+}
+
+model PostCategory {
+  postId     String
+  categoryId String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([postId, categoryId])
+  @@index([categoryId])
+  @@map("post_category")
+}
+
+model PostGenre {
+  postId  String
+  genreId String
+  post    Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([postId, genreId])
+  @@index([genreId])
+  @@map("post_genre")
+}
+
+model PostFestival {
+  postId     String
+  festivalId String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  festival   Festival @relation(fields: [festivalId], references: [id], onDelete: Cascade)
+
+  @@id([postId, festivalId])
+  @@index([festivalId])
+  @@map("post_festival")
+}
+
+model PostYear {
+  postId String
+  yearId String
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  year   Year @relation(fields: [yearId], references: [id], onDelete: Cascade)
+
+  @@id([postId, yearId])
+  @@index([yearId])
+  @@map("post_year")
 }

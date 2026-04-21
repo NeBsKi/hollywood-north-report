@@ -8,20 +8,16 @@ import {
 } from '@/components/ui/breadcrumb'
 import { columns } from './_components/columns'
 import { DataTable } from './_components/data-table'
-import { listCategories } from './_lib/queries'
+import { listGenres } from './_lib/queries'
 import { listParams } from './_lib/schemas'
 
 type SP = Promise<Record<string, string | undefined>>
 
-export default async function CategoriesPage({
-  searchParams,
-}: {
-  searchParams: SP
-}) {
+export default async function GenresPage({ searchParams }: { searchParams: SP }) {
   const sp = await searchParams
   const parsed = listParams.safeParse(sp)
   const params = parsed.success ? parsed.data : listParams.parse({})
-  const { rows, total, page, pageSize } = await listCategories(params)
+  const { rows, total, page, pageSize } = await listGenres(params)
 
   return (
     <div>
@@ -29,21 +25,15 @@ export default async function CategoriesPage({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink>Categories</BreadcrumbLink>
+              <BreadcrumbLink>Genres</BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <Button asChild>
-          <Link href="/admin/categories/new">New category</Link>
+          <Link href="/admin/filters/genres/new">New genre</Link>
         </Button>
       </div>
-      <DataTable
-        columns={columns}
-        data={rows}
-        total={total}
-        page={page}
-        pageSize={pageSize}
-      />
+      <DataTable columns={columns} data={rows} total={total} page={page} pageSize={pageSize} />
     </div>
   )
 }

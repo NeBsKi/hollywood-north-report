@@ -27,7 +27,7 @@ type NavItem = {
 }
 
 const navMain: NavItem[] = [
-  { title: 'Dashboard', url: '/admin', icon: <LayoutDashboardIcon />, roles: ['ADMIN'] },
+  { title: 'Dashboard', url: '/admin/dashboard', icon: <LayoutDashboardIcon />, roles: ['ADMIN'] },
   {
     title: 'Posts',
     url: '#',
@@ -44,17 +44,25 @@ const navMain: NavItem[] = [
     ],
   },
   {
-    title: 'Categories',
+    title: 'Filters',
     url: '#',
     icon: <BookOpenIcon />,
     items: [
       {
-        title: 'All Categories',
-        url: '/admin/categories',
+        title: 'Genres',
+        url: '/admin/filters/genres',
       },
       {
-        title: 'Create Category',
-        url: '/admin/categories/new',
+        title: 'Years',
+        url: '/admin/filters/years',
+      },
+      {
+        title: 'Festivals',
+        url: '/admin/filters/festivals',
+      },
+      {
+        title: 'Categories',
+        url: '/admin/filters/categories',
       },
     ],
   },

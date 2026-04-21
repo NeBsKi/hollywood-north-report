@@ -6,19 +6,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { requireAdmin } from '@/lib/require-role'
-import { UserForm } from '../_components/user-form'
+import { GenreForm } from '../_components/genre-form'
 
-export default async function NewUserPage() {
-  await requireAdmin()
-
+export default function NewGenrePage() {
   return (
     <div>
       <div className="mb-4">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link href="/admin/users">Users</Link>
+              <Link href="/admin/filters/genres">Genres</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -27,7 +24,7 @@ export default async function NewUserPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <UserForm />
+      <GenreForm />
     </div>
   )
 }

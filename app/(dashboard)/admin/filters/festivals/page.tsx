@@ -6,19 +6,18 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
 } from '@/components/ui/breadcrumb'
-import { requireAdmin } from '@/lib/require-role'
-import { UsersTable } from './_components/users-table'
-import { listUsers } from './_lib/queries'
+import { columns } from './_components/columns'
+import { DataTable } from './_components/data-table'
+import { listFestivals } from './_lib/queries'
 import { listParams } from './_lib/schemas'
 
 type SP = Promise<Record<string, string | undefined>>
 
-export default async function UsersPage({ searchParams }: { searchParams: SP }) {
-  const session = await requireAdmin()
+export default async function FestivalsPage({ searchParams }: { searchParams: SP }) {
   const sp = await searchParams
   const parsed = listParams.safeParse(sp)
   const params = parsed.success ? parsed.data : listParams.parse({})
-  const { rows, total, page, pageSize } = await listUsers(params)
+  const { rows, total, page, pageSize } = await listFestivals(params)
 
   return (
     <div>
@@ -26,21 +25,15 @@ export default async function UsersPage({ searchParams }: { searchParams: SP }) 
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink>Users</BreadcrumbLink>
+              <BreadcrumbLink>Festivals</BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
         <Button asChild>
-          <Link href="/admin/users/new">New user</Link>
+          <Link href="/admin/filters/festivals/new">New festival</Link>
         </Button>
       </div>
-      <UsersTable
-        currentUserId={session.user.id}
-        rows={rows}
-        total={total}
-        page={page}
-        pageSize={pageSize}
-      />
+      <DataTable columns={columns} data={rows} total={total} page={page} pageSize={pageSize} />
     </div>
   )
 }
