@@ -1,7 +1,8 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal, Pencil } from 'lucide-react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -11,9 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import Link from 'next/link'
+import { DeleteCategoryMenuItem } from './delete-category-button'
 
-export type Category = {
+export type CategoryRow = {
   id: string
   name: string
   slug: string
@@ -21,28 +22,25 @@ export type Category = {
   updatedAt: Date
 }
 
-export const columns: ColumnDef<Category>[] = [
-  {
-    accessorKey: 'name',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'slug',
-    header: 'Slug',
-  },
+const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' })
+
+export const columns: ColumnDef<CategoryRow>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'slug', header: 'Slug' },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
+    header: 'Created',
+    cell: ({ row }) => fmt.format(row.original.createdAt),
   },
   {
     accessorKey: 'updatedAt',
-    header: 'Updated At',
+    header: 'Updated',
+    cell: ({ row }) => fmt.format(row.original.updatedAt),
   },
   {
     id: 'actions',
     cell: ({ row }) => {
       const category = row.original
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -51,16 +49,16 @@ export const columns: ColumnDef<Category>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="min-w-40">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(category.id)}>
-              Copy category ID
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/categories/${category.id}/edit`}>
+                <Pencil />
+                Edit
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href={`/admin/categories/${category.id}/edit`}>Edit category</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>Delete category</DropdownMenuItem>
+            <DeleteCategoryMenuItem id={category.id} name={category.name} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,25 +5,24 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { CategoryForm } from '../category-form'
+import Link from 'next/link'
 
-export default function NewCategoryPage() {
+export default async function UsersCreatePage() {
   return (
     <div>
       <div className="mb-4">
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link href="/admin/categories">Categories</Link>
+            <BreadcrumbItem className="hidden md:block">
+              <Link href="/admin/users">List of users</Link>
             </BreadcrumbItem>
-            <BreadcrumbSeparator />
+            <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
-              <BreadcrumbPage>Create</BreadcrumbPage>
+              <BreadcrumbPage>Create user</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <CategoryForm />
     </div>
   )
 }

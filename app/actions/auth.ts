@@ -5,36 +5,11 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/lib/auth'
-import { signInSchema, signUpSchema } from '@/lib/schemas/auth'
+import { signInSchema } from '@/lib/schemas/auth'
 
 export type AuthFormState = {
   fieldErrors?: Record<string, string[]>
   formError?: string
-}
-
-export async function signUpAction(
-  _prevState: AuthFormState,
-  formData: FormData,
-): Promise<AuthFormState> {
-  const result = signUpSchema.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-  })
-
-  if (!result.success) {
-    return { fieldErrors: z.flattenError(result.error).fieldErrors }
-  }
-
-  try {
-    await auth.api.signUpEmail({
-      body: result.data,
-    })
-  } catch {
-    return { formError: 'Something went wrong. Please try again.' }
-  }
-
-  return redirect('/admin')
 }
 
 export async function signInAction(

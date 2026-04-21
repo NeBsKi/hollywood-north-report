@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -12,46 +11,35 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { CategoryRow } from '../categories/columns'
+import Link from 'next/link'
+import { Role } from '@/lib/roles'
 
-export type Post = {
+export type User = {
   id: string
-  title: string
-  slug: string
-  category: CategoryRow
+  email: string
+  role: Role
   createdAt: Date
   updatedAt: Date
+  isActive: boolean
 }
 
-export const columns: ColumnDef<Post>[] = [
+export const columns: ColumnDef<User>[] = [
   {
-    accessorKey: 'title',
-    header: 'Title',
+    accessorKey: 'email',
+    header: 'Email',
   },
   {
-    accessorKey: 'slug',
-    header: 'Slug',
+    accessorKey: 'role',
+    header: 'Role',
   },
   {
-    accessorKey: 'category',
-    header: 'Category',
-    cell: ({ row }) => {
-      const category = row.original.category
-      return <Link href={`/admin/categories/${category.id}`}>{category.name}</Link>
-    },
-  },
-  {
-    accessorKey: 'createdAt',
-    header: 'Created At',
-  },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Updated At',
+    accessorKey: 'isActive',
+    header: 'Active',
   },
   {
     id: 'actions',
     cell: ({ row }) => {
-      const post = row.original
+      const user = row.original
 
       return (
         <DropdownMenu>
@@ -63,18 +51,17 @@ export const columns: ColumnDef<Post>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(post.id)}>
-              Copy post ID
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.id)}>
+              Copy user ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/admin/posts/${post.id}/edit`}>Edit post</Link>
+              <Link href={`/admin/users/${user.id}/edit`}>Edit user</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Delete post</DropdownMenuItem>
+            <DropdownMenuItem>Delete user</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
     },
   },
-  // ...
 ]

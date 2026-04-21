@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,9 +7,18 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { CategoryForm } from '../category-form'
+import { getCategory } from '../../queries'
+import { CategoryForm } from '../../category-form'
 
-export default function NewCategoryPage() {
+export default async function EditCategoryPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const category = await getCategory(id)
+  if (!category) notFound()
+
   return (
     <div>
       <div className="mb-4">
@@ -19,12 +29,18 @@ export default function NewCategoryPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Create</BreadcrumbPage>
+              <BreadcrumbPage>Edit</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <CategoryForm />
+      <CategoryForm
+        initial={{
+          id: category.id,
+          name: category.name,
+          slug: category.slug,
+        }}
+      />
     </div>
   )
 }

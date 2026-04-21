@@ -13,70 +13,78 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
-import {
-  BookOpenIcon,
-  LayoutDashboardIcon,
-  FileTextIcon,
-  UsersIcon,
-  GalleryVerticalEnd,
-} from 'lucide-react'
+import { BookOpenIcon, LayoutDashboardIcon, FileTextIcon, UsersIcon } from 'lucide-react'
 import { getServerSession } from '@/lib/get-session'
 import { Logo } from './shared/logo'
+import { Role } from '@/lib/roles'
 
-const data = {
-  navMain: [
-    {
-      title: 'Dashboard',
-      url: '/admin',
-      icon: <LayoutDashboardIcon />,
-      isActive: true,
-    },
-    {
-      title: 'Posts',
-      url: '#',
-      icon: <FileTextIcon />,
-      items: [
-        {
-          title: 'All Posts',
-          url: '/admin/posts',
-        },
-        {
-          title: 'Create Post',
-          url: '/admin/posts/new',
-        },
-      ],
-    },
-    {
-      title: 'Categories',
-      url: '#',
-      icon: <BookOpenIcon />,
-      items: [
-        {
-          title: 'All Categories',
-          url: '/admin/categories',
-        },
-        {
-          title: 'Create Category',
-          url: '/admin/categories/new',
-        },
-      ],
-    },
-    {
-      title: 'Users',
-      url: '#',
-      icon: <UsersIcon />,
-      items: [
-        {
-          title: 'All Users',
-          url: '/admin/users',
-        },
-        {
-          title: 'Create User',
-          url: '/admin/users/new',
-        },
-      ],
-    },
-  ],
+type NavItem = {
+  title: string
+  url: string
+  icon?: React.ReactNode
+  roles?: Role[]
+  items?: NavItem[]
+}
+
+const navMain: NavItem[] = [
+  { title: 'Dashboard', url: '/admin', icon: <LayoutDashboardIcon />, roles: ['ADMIN'] },
+  {
+    title: 'Posts',
+    url: '#',
+    icon: <FileTextIcon />,
+    items: [
+      {
+        title: 'All Posts',
+        url: '/admin/posts',
+      },
+      {
+        title: 'Create Post',
+        url: '/admin/posts/new',
+      },
+    ],
+  },
+  {
+    title: 'Categories',
+    url: '#',
+    icon: <BookOpenIcon />,
+    items: [
+      {
+        title: 'All Categories',
+        url: '/admin/categories',
+      },
+      {
+        title: 'Create Category',
+        url: '/admin/categories/new',
+      },
+    ],
+  },
+  {
+    title: 'Users',
+    url: '#',
+    icon: <UsersIcon />,
+    roles: ['ADMIN'],
+    items: [
+      {
+        title: 'All Users',
+        url: '/admin/users',
+      },
+      {
+        title: 'Create User',
+        url: '/admin/users/new',
+      },
+    ],
+  },
+]
+
+const canSee = (item: NavItem, role: Role) => !item.roles || item.roles.includes(role)
+
+function filterByRole(items: NavItem[], role: Role): NavItem[] {
+  return items.flatMap((item) => {
+    if (!canSee(item, role)) return []
+    if (!item.items) return item
+    const children = filterByRole(item.items, role)
+    return children.length ? { ...item, items: children } : []
+  })
 }
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -104,7 +112,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={filterByRole(navMain, user.role as Role)} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={user} />

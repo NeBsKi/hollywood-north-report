@@ -1,10 +1,9 @@
 'use client'
 
 import { useActionState } from 'react'
-import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/card'
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { SubmitButton } from '@/components/submit-button'
 import { signInAction, type AuthFormState } from '@/app/actions/auth'
@@ -49,9 +48,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
               <Field>
                 <SubmitButton>Sign in</SubmitButton>
               </Field>
-              <FieldDescription className="text-center">
-                Don&apos;t have an account? <Link href="/signup">Sign up</Link>
-              </FieldDescription>
             </FieldGroup>
           </form>
           <div className="bg-muted relative hidden md:block">
