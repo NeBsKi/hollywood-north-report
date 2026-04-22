@@ -17,6 +17,14 @@ enum Role {
   USER
 }
 
+enum AboutSectionKey {
+  ABOUT_US
+  MISSION
+  WHAT_WE_PUBLISH
+  PERSPECTIVE
+  EDITORIAL_BACKGROUND
+}
+
 model User {
   id            String    @id
   name          String
@@ -125,6 +133,19 @@ model Year {
 
   @@index([value])
   @@map("year")
+}
+
+model AboutPageSection {
+  id          String          @id @default(cuid())
+  sectionKey  AboutSectionKey
+  title       String
+  body        Json
+  sortOrder   Int
+  isPublished Boolean         @default(true)
+
+  @@unique([sectionKey])
+  @@unique([sortOrder])
+  @@map("about_page_section")
 }
 
 model Post {
