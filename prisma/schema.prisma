@@ -17,12 +17,10 @@ enum Role {
   USER
 }
 
-enum AboutSectionKey {
-  ABOUT_US
-  MISSION
-  WHAT_WE_PUBLISH
-  PERSPECTIVE
-  EDITORIAL_BACKGROUND
+enum AboutBlockType {
+  CONTENT
+  CONTENT_WITH_QUOTE
+  NESTED_CARDS
 }
 
 model User {
@@ -135,17 +133,23 @@ model Year {
   @@map("year")
 }
 
-model AboutPageSection {
-  id          String          @id @default(cuid())
-  sectionKey  AboutSectionKey
-  title       String
-  body        Json
-  sortOrder   Int
-  isPublished Boolean         @default(true)
+model AboutPageBlock {
+  id         String         @id @default(cuid())
+  sortOrder  Int
+  type       AboutBlockType
+  title      String
+  /// Main HTML; used for CONTENT and CONTENT_WITH_QUOTE.
+  content    String?        @db.Text
+  /// Optional pull-quote; used only for CONTENT_WITH_QUOTE.
+  quote      String?        @db.Text
+  /// List of { title, content } for NESTED_CARDS.
+  cards      Json?
+  isPublished Boolean       @default(true)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime     @updatedAt
 
-  @@unique([sectionKey])
-  @@unique([sortOrder])
-  @@map("about_page_section")
+  @@index([sortOrder])
+  @@map("about_page_block")
 }
 
 model Post {

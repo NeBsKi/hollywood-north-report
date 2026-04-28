@@ -13,6 +13,13 @@
     "seed": "prisma generate && prisma migrate deploy && prisma db seed"
   },
   "dependencies": {
+    "@lexical/history": "^0.44.0",
+    "@lexical/html": "^0.44.0",
+    "@lexical/link": "^0.44.0",
+    "@lexical/list": "^0.44.0",
+    "@lexical/react": "^0.44.0",
+    "@lexical/rich-text": "^0.44.0",
+    "@lexical/utils": "^0.44.0",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "@tanstack/react-table": "^8.21.3",
@@ -21,6 +28,8 @@
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
     "downshift": "^9.3.2",
+    "isomorphic-dompurify": "^3.10.0",
+    "lexical": "^0.44.0",
     "lucide-react": "^1.8.0",
     "motion": "^12.38.0",
     "next": "16.1.7",

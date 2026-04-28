@@ -1,13 +1,11 @@
 import 'server-only'
+
+import { unstable_noStore as noStore } from 'next/cache'
 import prisma from '@/lib/prisma'
 
-export async function listAboutSections() {
-  return prisma.aboutPageSection.findMany({
+export async function listAboutPageBlocks() {
+  noStore()
+  return prisma.aboutPageBlock.findMany({
     orderBy: { sortOrder: 'asc' },
-    select: {
-      title: true,
-      sectionKey: true,
-      body: true,
-    },
   })
 }
