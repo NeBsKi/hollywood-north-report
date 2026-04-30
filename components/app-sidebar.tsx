@@ -13,7 +13,14 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
-import { BookOpenIcon, InfoIcon, LayoutDashboardIcon, FileTextIcon, UsersIcon } from 'lucide-react'
+import {
+  BookOpenIcon,
+  ImageIcon,
+  InfoIcon,
+  LayoutDashboardIcon,
+  FileTextIcon,
+  UsersIcon,
+} from 'lucide-react'
 import { getServerSession } from '@/lib/get-session'
 import { Logo } from './shared/logo'
 import { Role } from '@/lib/roles'
@@ -30,7 +37,7 @@ const navMain: NavItem[] = [
   { title: 'Dashboard', url: '/admin/dashboard', icon: <LayoutDashboardIcon />, roles: ['ADMIN'] },
   { title: 'About Us', url: '/admin/about-us', icon: <InfoIcon />, roles: ['ADMIN'] },
   {
-    title: 'Posts',
+    title: 'Blog Posts',
     url: '#',
     icon: <FileTextIcon />,
     items: [
@@ -41,6 +48,21 @@ const navMain: NavItem[] = [
       {
         title: 'Create Post',
         url: '/admin/posts/new',
+      },
+    ],
+  },
+  {
+    title: 'Media',
+    url: '#',
+    icon: <ImageIcon />,
+    items: [
+      {
+        title: 'Library',
+        url: '/admin/media',
+      },
+      {
+        title: 'Upload',
+        url: '/admin/media/new',
       },
     ],
   },

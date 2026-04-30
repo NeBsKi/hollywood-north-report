@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -12,36 +7,25 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role {
-  ADMIN
-  USER
-}
-
-enum AboutBlockType {
-  CONTENT
-  CONTENT_WITH_QUOTE
-  NESTED_CARDS
-}
-
 model User {
   id            String    @id
   name          String
-  email         String
+  email         String    @unique
   emailVerified Boolean   @default(false)
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
   role          Role      @default(USER)
-  @@unique([email])
+  accounts      Account[]
+  sessions      Session[]
+
   @@map("user")
 }
 
 model Session {
   id        String   @id
   expiresAt DateTime
-  token     String
+  token     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   ipAddress String?
@@ -49,7 +33,6 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
   @@index([userId])
   @@map("session")
 }
@@ -59,7 +42,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -69,6 +51,7 @@ model Account {
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@map("account")
@@ -87,11 +70,11 @@ model Verification {
 }
 
 model Category {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   name      String
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  slug      String         @unique
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
   posts     PostCategory[]
 
   @@index([name])
@@ -99,11 +82,11 @@ model Category {
 }
 
 model Genre {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   name      String
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  slug      String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
   posts     PostGenre[]
 
   @@index([name])
@@ -111,11 +94,11 @@ model Genre {
 }
 
 model Festival {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   name      String
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  slug      String         @unique
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
   posts     PostFestival[]
 
   @@index([name])
@@ -123,10 +106,10 @@ model Festival {
 }
 
 model Year {
-  id        String   @id @default(cuid())
-  value     Int      @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String     @id @default(cuid())
+  value     Int        @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   posts     PostYear[]
 
   @@index([value])
@@ -134,19 +117,16 @@ model Year {
 }
 
 model AboutPageBlock {
-  id         String         @id @default(cuid())
-  sortOrder  Int
-  type       AboutBlockType
-  title      String
-  /// Main HTML; used for CONTENT and CONTENT_WITH_QUOTE.
-  content    String?        @db.Text
-  /// Optional pull-quote; used only for CONTENT_WITH_QUOTE.
-  quote      String?        @db.Text
-  /// List of { title, content } for NESTED_CARDS.
-  cards      Json?
-  isPublished Boolean       @default(true)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime     @updatedAt
+  id          String         @id @default(cuid())
+  sortOrder   Int
+  type        AboutBlockType
+  title       String
+  content     String?
+  quote       String?
+  cards       Json?
+  isPublished Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
   @@index([sortOrder])
   @@map("about_page_block")
@@ -159,8 +139,8 @@ model Post {
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
   categories PostCategory[]
-  genres     PostGenre[]
   festivals  PostFestival[]
+  genres     PostGenre[]
   years      PostYear[]
 
   @@index([title])
@@ -170,8 +150,8 @@ model Post {
 model PostCategory {
   postId     String
   categoryId String
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([postId, categoryId])
   @@index([categoryId])
@@ -181,8 +161,8 @@ model PostCategory {
 model PostGenre {
   postId  String
   genreId String
-  post    Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
-  genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([postId, genreId])
   @@index([genreId])
@@ -192,8 +172,8 @@ model PostGenre {
 model PostFestival {
   postId     String
   festivalId String
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   festival   Festival @relation(fields: [festivalId], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@id([postId, festivalId])
   @@index([festivalId])
@@ -203,10 +183,54 @@ model PostFestival {
 model PostYear {
   postId String
   yearId String
-  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-  year   Year @relation(fields: [yearId], references: [id], onDelete: Cascade)
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  year   Year   @relation(fields: [yearId], references: [id], onDelete: Cascade)
 
   @@id([postId, yearId])
   @@index([yearId])
   @@map("post_year")
+}
+
+model Media {
+  id           String      @id @default(cuid())
+  key          String      @unique
+  url          String
+  thumbKey     String?
+  thumbUrl     String?
+  cardKey      String?
+  cardUrl      String?
+  contentKey   String?
+  contentUrl   String?
+  fileName     String
+  contentType  String
+  size         Int
+  width        Int?
+  height       Int?
+  alt          String?
+  title        String?
+  caption      String?
+  status       MediaStatus @default(PENDING)
+  uploadedById String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+  @@map("media")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum AboutBlockType {
+  CONTENT
+  CONTENT_WITH_QUOTE
+  NESTED_CARDS
+}
+
+enum MediaStatus {
+  PENDING
+  READY
 }
