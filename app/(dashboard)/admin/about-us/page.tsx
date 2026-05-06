@@ -21,7 +21,7 @@ export default async function AboutUsAdminPage() {
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

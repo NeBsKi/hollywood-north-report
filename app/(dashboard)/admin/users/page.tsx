@@ -22,7 +22,7 @@ export default async function UsersPage({ searchParams }: { searchParams: SP }) 
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

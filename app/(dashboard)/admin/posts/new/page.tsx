@@ -6,11 +6,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { PostForm } from '../_components/post-form'
+import { getPostFilters } from '../_lib/queries'
 
 export default async function PostsCreatePage() {
+  const filters = await getPostFilters()
+
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
@@ -23,6 +27,7 @@ export default async function PostsCreatePage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+      <PostForm filters={filters} />
     </div>
   )
 }

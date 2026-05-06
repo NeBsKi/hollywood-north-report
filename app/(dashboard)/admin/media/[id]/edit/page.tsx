@@ -11,11 +11,7 @@ import { requireAdmin } from '@/lib/require-role'
 import { getMedia } from '../../_lib/queries'
 import { MediaForm } from '../../_components/media-form'
 
-export default async function EditMediaPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
+export default async function EditMediaPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin()
   const { id } = await params
   const media = await getMedia(id)
@@ -23,7 +19,7 @@ export default async function EditMediaPage({
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

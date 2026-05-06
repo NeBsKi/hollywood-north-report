@@ -21,7 +21,7 @@ export default async function CategoriesPage({ searchParams }: { searchParams: S
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

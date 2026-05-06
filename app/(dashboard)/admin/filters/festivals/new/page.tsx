@@ -11,7 +11,7 @@ import { FestivalForm } from '../_components/festival-form'
 export default function NewFestivalPage() {
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

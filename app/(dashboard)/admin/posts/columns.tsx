@@ -12,18 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { CategoryRow } from '../filters/categories/_components/columns'
+import type { Post } from '@/generated/prisma/client'
 
-export type Post = {
-  id: string
-  title: string
-  slug: string
-  category: CategoryRow
-  createdAt: Date
-  updatedAt: Date
-}
+export type PostColumns = Pick<Post, 'id' | 'title' | 'slug' | 'status' | 'publishDate'>
 
-export const columns: ColumnDef<Post>[] = [
+const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium' })
+
+export const columns: ColumnDef<PostColumns>[] = [
   {
     accessorKey: 'title',
     header: 'Title',
@@ -33,20 +28,13 @@ export const columns: ColumnDef<Post>[] = [
     header: 'Slug',
   },
   {
-    accessorKey: 'category',
-    header: 'Category',
-    cell: ({ row }) => {
-      const category = row.original.category
-      return <Link href={`/admin/categories/${category.id}`}>{category.name}</Link>
-    },
+    accessorKey: 'status',
+    header: 'Status',
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Created At',
-  },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Updated At',
+    accessorKey: 'publishDate',
+    header: 'Publish Date',
+    cell: ({ row }) => fmt.format(row.original.publishDate),
   },
   {
     id: 'actions',

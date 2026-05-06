@@ -21,6 +21,9 @@ import { Button } from '@/components/ui/button'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  total: number
+  page: number
+  pageSize: number
 }
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {

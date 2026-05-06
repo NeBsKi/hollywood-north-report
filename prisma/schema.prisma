@@ -133,17 +133,26 @@ model AboutPageBlock {
 }
 
 model Post {
-  id         String         @id @default(cuid())
-  title      String
-  slug       String         @unique
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  categories PostCategory[]
-  festivals  PostFestival[]
-  genres     PostGenre[]
-  years      PostYear[]
+  id              String         @id @default(cuid())
+  title           String
+  slug            String         @unique
+  content         String?        @db.Text
+  author          String?
+  status          PostStatus     @default(DRAFT)
+  publishDate     DateTime
+  coverImageId    String?        @map("coverImage")
+  coverMedia      Media?         @relation("PostCoverMedia", fields: [coverImageId], references: [id], onDelete: SetNull)
+  metaTitle       String?
+  metaDescription String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  categories      PostCategory[]
+  festivals       PostFestival[]
+  genres          PostGenre[]
+  years           PostYear[]
 
   @@index([title])
+  @@index([coverImageId])
   @@map("post")
 }
 
@@ -213,6 +222,7 @@ model Media {
   uploadedById String?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+  postsAsCover Post[]      @relation("PostCoverMedia")
 
   @@index([createdAt])
   @@index([status])
@@ -233,4 +243,9 @@ enum AboutBlockType {
 enum MediaStatus {
   PENDING
   READY
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
 }

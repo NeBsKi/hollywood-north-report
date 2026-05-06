@@ -10,18 +10,14 @@ import {
 import { getGenre } from '../../_lib/queries'
 import { GenreForm } from '../../_components/genre-form'
 
-export default async function EditGenrePage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
+export default async function EditGenrePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const genre = await getGenre(id)
   if (!genre) notFound()
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

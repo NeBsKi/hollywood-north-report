@@ -11,7 +11,7 @@ import { GenreForm } from '../_components/genre-form'
 export default function NewGenrePage() {
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

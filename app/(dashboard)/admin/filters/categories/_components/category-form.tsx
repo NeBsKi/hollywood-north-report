@@ -1,21 +1,24 @@
 'use client'
 
 import { useActionState } from 'react'
-import { useFormStatus } from 'react-dom'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { SubmitButton } from '@/components/submit-button'
 import {
   createCategoryAction,
   updateCategoryAction,
   type CategoryActionState,
 } from '../_lib/actions'
+import type { Category } from '@/generated/prisma/client'
 
-type Initial = { id: string; name: string; slug: string } | undefined
+type CategoryFormProps = {
+  category?: Pick<Category, 'id' | 'name' | 'slug'>
+}
 
-export function CategoryForm({ initial }: { initial?: Initial }) {
-  const action = initial ? updateCategoryAction.bind(null, initial.id) : createCategoryAction
+export function CategoryForm({ category }: CategoryFormProps) {
+  const action = category ? updateCategoryAction.bind(null, category.id) : createCategoryAction
 
   const [state, formAction] = useActionState<CategoryActionState, FormData>(action, {})
 
@@ -24,20 +27,20 @@ export function CategoryForm({ initial }: { initial?: Initial }) {
       <Field
         label="Name"
         name="name"
-        defaultValue={initial?.name}
+        defaultValue={category?.name}
         error={state.fieldErrors?.name?.[0]}
         autoFocus
       />
       <Field
         label="Slug"
         name="slug"
-        defaultValue={initial?.slug}
+        defaultValue={category?.slug}
         error={state.fieldErrors?.slug?.[0]}
         placeholder="e.g. film-industry"
       />
       {state.formError && <p className="text-destructive text-sm">{state.formError}</p>}
       <div className="flex items-center gap-2">
-        <SubmitButton>{initial ? 'Save changes' : 'Create category'}</SubmitButton>
+        <SubmitButton>{category ? 'Save changes' : 'Create category'}</SubmitButton>
         <Button asChild variant="ghost">
           <Link href="/admin/filters/categories">Cancel</Link>
         </Button>
@@ -67,9 +70,4 @@ function Field({ label, name, defaultValue, error, ...rest }: FieldProps) {
       {error && <p className="text-destructive text-sm">{error}</p>}
     </div>
   )
-}
-
-function SubmitButton({ children }: { children: React.ReactNode }) {
-  const { pending } = useFormStatus()
-  return <Button disabled={pending}>{pending ? 'Saving…' : children}</Button>
 }

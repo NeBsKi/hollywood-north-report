@@ -2,10 +2,9 @@
 
 import { Loader2 } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
-import type { ButtonHTMLAttributes } from 'react'
 import { Button } from '@/components/ui/button'
 
-interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface SubmitButtonProps extends React.ComponentProps<typeof Button> {
   children: React.ReactNode
   className?: string
 }

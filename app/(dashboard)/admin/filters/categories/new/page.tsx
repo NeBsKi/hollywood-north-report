@@ -11,7 +11,7 @@ import { CategoryForm } from '../_components/category-form'
 export default function NewCategoryPage() {
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

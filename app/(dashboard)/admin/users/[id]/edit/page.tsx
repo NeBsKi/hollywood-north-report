@@ -12,11 +12,7 @@ import type { Role } from '@/lib/roles'
 import { getUser } from '../../_lib/queries'
 import { UserForm } from '../../_components/user-form'
 
-export default async function EditUserPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
+export default async function EditUserPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin()
   const { id } = await params
   const user = await getUser(id)
@@ -24,7 +20,7 @@ export default async function EditUserPage({
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

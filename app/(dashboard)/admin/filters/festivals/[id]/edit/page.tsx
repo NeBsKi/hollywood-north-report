@@ -10,18 +10,14 @@ import {
 import { getFestival } from '../../_lib/queries'
 import { FestivalForm } from '../../_components/festival-form'
 
-export default async function EditFestivalPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
+export default async function EditFestivalPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const festival = await getFestival(id)
   if (!festival) notFound()
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

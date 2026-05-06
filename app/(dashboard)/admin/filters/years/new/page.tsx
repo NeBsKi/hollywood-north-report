@@ -11,7 +11,7 @@ import { YearForm } from '../_components/year-form'
 export default function NewYearPage() {
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>

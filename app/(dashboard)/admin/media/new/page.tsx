@@ -13,7 +13,7 @@ export default async function NewMediaPage() {
   await requireAdmin()
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-6">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
