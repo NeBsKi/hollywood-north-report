@@ -2,10 +2,18 @@
 
 import { ImagePlus, Loader2, UploadCloud, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { useMediaUploader } from '../_lib/hooks/use-media-uploader'
+import type { MediaSelection } from '../_lib/types'
 import { MEDIA_ACCEPT, formatFileSize } from '../_lib/utils'
 
-export function MediaUploader() {
+export function MediaUploader({
+  className,
+  onUploaded,
+}: {
+  className?: string
+  onUploaded?: (media: MediaSelection) => void
+}) {
   const {
     inputRef,
     file,
@@ -18,10 +26,10 @@ export function MediaUploader() {
     onUpload,
     reset,
     maxFileSizeLabel,
-  } = useMediaUploader()
+  } = useMediaUploader({ onUploaded })
 
   return (
-    <div className="max-w-xl space-y-4">
+    <div className={cn('max-w-xl space-y-4', className)}>
       <label
         htmlFor="media-file"
         className="bg-muted/30 hover:bg-muted/50 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed p-8 text-center transition"

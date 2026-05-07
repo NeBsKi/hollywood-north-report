@@ -14,7 +14,6 @@ export default async function PostsEditPage({ params }: { params: Promise<{ id: 
   const { id } = await params
   const filters = await getPostFilters()
   const post = await getPost(id)
-  console.log(post)
 
   if (!post) notFound()
 

@@ -72,6 +72,9 @@ export async function getPost(id: string) {
       genres: { select: { genreId: true } },
       festivals: { select: { festivalId: true } },
       years: { select: { yearId: true } },
+      coverMedia: {
+        select: { id: true, url: true, thumbUrl: true, fileName: true },
+      },
     },
   })
 

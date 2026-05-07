@@ -1,18 +1,20 @@
 'use client'
 
 import { useActionState } from 'react'
+import Link from 'next/link'
+
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
-import { MultiSelectField } from '@/components/select-field/multi-select-field'
 import { SingleSelectField } from '@/components/select-field/single-select-field'
+import { SubmitButton } from '@/components/submit-button'
+
 import { PostContentEditor } from './post-content-editor'
 import { PostCoverImageField } from './post-cover-image-field'
 import { createPostAction, PostActionState, updatePostAction } from '../_lib/actions'
-import { SubmitButton } from '@/components/submit-button'
 import { PostFormProps } from '../_lib/types'
-import Link from 'next/link'
+import { PostFilters } from './post-filters'
 
 const statusOptions = [
   { value: 'DRAFT', label: 'Draft' },
@@ -22,7 +24,6 @@ const statusOptions = [
 const statusFieldOptions = statusOptions.map((option) => option)
 
 export function PostForm({ post, filters }: PostFormProps) {
-  console.log(post)
   const action = post ? updatePostAction.bind(null, post.id) : createPostAction
 
   const [state, formAction] = useActionState<PostActionState, FormData>(action, {})
@@ -30,10 +31,30 @@ export function PostForm({ post, filters }: PostFormProps) {
   return (
     <form action={formAction}>
       <div className="mb-6 flex items-center justify-between rounded-lg border p-4">
-        <h2 className="font-medium">Creating new Blog Post</h2>
+        {post ? (
+          <div className="flex items-center gap-4">
+            <div className="text-xs text-gray-500">
+              Status: <span className="text-black-900 font-medium">{post.status}</span>
+            </div>
+            <div className="text-xs text-gray-500">
+              Created:{' '}
+              <span className="text-black-900 font-medium">
+                {new Date(post.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+            <div className="text-xs text-gray-500">
+              Updated:{' '}
+              <span className="text-black-900 font-medium">
+                {new Date(post.updatedAt).toLocaleDateString()}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <h2 className="font-medium">Creating new post</h2>
+        )}
         <div className="flex items-center gap-4">
           <Link href="/admin/posts">Cancel</Link>
-          <SubmitButton size="lg">Publish changes</SubmitButton>
+          <SubmitButton size="lg">Save post</SubmitButton>
         </div>
       </div>
 
@@ -53,36 +74,7 @@ export function PostForm({ post, filters }: PostFormProps) {
 
           <PostContentEditor content={post?.content ?? ''} />
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <MultiSelectField
-              id="categoryIds"
-              name="categoryIds"
-              label="Categories"
-              options={filters.categories}
-              defaultValues={post?.categoryIds}
-            />
-            <MultiSelectField
-              id="genreIds"
-              name="genreIds"
-              label="Genres"
-              options={filters.genres}
-              defaultValues={post?.genreIds}
-            />
-            <MultiSelectField
-              id="festivalIds"
-              name="festivalIds"
-              label="Festivals"
-              options={filters.festivals}
-              defaultValues={post?.festivalIds}
-            />
-            <MultiSelectField
-              id="yearIds"
-              name="yearIds"
-              label="Years"
-              options={filters.years}
-              defaultValues={post?.yearIds}
-            />
-          </div>
+          <PostFilters filters={filters} post={post} />
 
           <Separator className="my-8" />
 
@@ -154,7 +146,7 @@ export function PostForm({ post, filters }: PostFormProps) {
             wrapperClassName="space-y-1.5 rounded-lg border p-4"
           />
 
-          <PostCoverImageField />
+          <PostCoverImageField defaultValue={post?.coverMedia ?? null} />
         </section>
       </div>
     </form>

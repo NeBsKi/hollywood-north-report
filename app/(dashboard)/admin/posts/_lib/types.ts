@@ -1,5 +1,5 @@
 import type { SelectorOption } from '@/components/select-field/select-field-types'
-import type { Post } from '@/generated/prisma/client'
+import type { Media, Post } from '@/generated/prisma/client'
 
 export type PostFilters = {
   categories: SelectorOption[]
@@ -7,6 +7,8 @@ export type PostFilters = {
   festivals: SelectorOption[]
   years: SelectorOption[]
 }
+
+export type PostCoverMedia = Pick<Media, 'id' | 'url' | 'thumbUrl' | 'fileName'>
 
 export interface PostFormProps {
   filters: PostFilters
@@ -19,12 +21,16 @@ export interface PostFormProps {
     | 'author'
     | 'status'
     | 'publishDate'
+    | 'coverImageId'
     | 'metaTitle'
     | 'metaDescription'
+    | 'createdAt'
+    | 'updatedAt'
   > & {
     categoryIds?: string[]
     genreIds?: string[]
     festivalIds?: string[]
     yearIds?: string[]
+    coverMedia?: PostCoverMedia | null
   }
 }

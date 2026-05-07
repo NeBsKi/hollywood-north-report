@@ -7,12 +7,7 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
-import {
-  FORMAT_TEXT_COMMAND,
-  REDO_COMMAND,
-  UNDO_COMMAND,
-  type TextFormatType,
-} from 'lexical'
+import { FORMAT_TEXT_COMMAND, REDO_COMMAND, UNDO_COMMAND, type TextFormatType } from 'lexical'
 import {
   BoldIcon,
   ItalicIcon,
@@ -27,6 +22,7 @@ import {
 
 import { ToolbarButton, ToolbarDivider } from './toolbar-button'
 import { useToolbarState } from './use-toolbar-state'
+import ImagePlugin from './plugins/ImagePlugin'
 
 export function Toolbar() {
   const [editor] = useLexicalComposerContext()
@@ -120,6 +116,7 @@ export function Toolbar() {
       >
         <LinkIcon className="size-4" />
       </ToolbarButton>
+      <ImagePlugin />
     </div>
   )
 }

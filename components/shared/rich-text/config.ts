@@ -3,6 +3,7 @@ import { ListItemNode, ListNode } from '@lexical/list'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import type { Klass, LexicalNode, LexicalNodeReplacement } from 'lexical'
 import type { InitialConfigType } from '@lexical/react/LexicalComposer'
+import { ImageNode } from './nodes/ImageNode'
 
 export const richTextTheme: NonNullable<InitialConfigType['theme']> = {
   paragraph: 'mb-2',
@@ -40,6 +41,7 @@ export const richTextNodes: ReadonlyArray<Klass<LexicalNode> | LexicalNodeReplac
   ListItemNode,
   LinkNode,
   AutoLinkNode,
+  ImageNode,
 ]
 
 export const EXTERNAL_VALUE_TAG = 'external-value'

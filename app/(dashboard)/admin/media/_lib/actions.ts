@@ -11,7 +11,14 @@ import prisma from '@/lib/prisma'
 import { requireRole } from '@/lib/require-role'
 import { isUniqueViolation } from '@/lib/prisma-errors'
 import { S3_BUCKET, assertS3Configured, publicUrlFor, s3 } from './s3'
-import { confirmUploadInput, uploadUrlInput, updateMediaInput, type AllowedMime } from './schemas'
+import { listMedia } from './queries'
+import {
+  confirmUploadInput,
+  listParams,
+  uploadUrlInput,
+  updateMediaInput,
+  type AllowedMime,
+} from './schemas'
 
 export type MediaActionState = {
   fieldErrors?: Record<string, string[]>
@@ -166,16 +173,27 @@ export async function confirmUploadAction(input: unknown) {
         caption: data.caption || null,
         status: 'READY',
       },
-      select: { id: true },
+      select: { id: true, url: true, thumbUrl: true, fileName: true },
     })
     revalidatePath('/admin/media')
-    return { id: created.id }
+    return created
   } catch (e) {
     if (isUniqueViolation(e, 'key')) {
       throw new Error('Object key already registered')
     }
     throw new Error('Could not save media record')
   }
+}
+
+export async function searchMediaAction(input: unknown) {
+  await requireRole(['ADMIN', 'USER'])
+
+  const parsed = listParams.safeParse(input)
+  if (!parsed.success) {
+    throw new Error('Invalid input')
+  }
+
+  return listMedia(parsed.data)
 }
 
 export async function updateMediaAction(

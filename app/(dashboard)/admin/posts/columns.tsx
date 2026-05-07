@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
+import { Copy, MoreHorizontal, Pencil } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import type { Post } from '@/generated/prisma/client'
+import { DeletePostMenuItem } from './_components/delete-post-button'
 
 export type PostColumns = Pick<Post, 'id' | 'title' | 'slug' | 'status' | 'publishDate'>
 
@@ -52,13 +53,16 @@ export const columns: ColumnDef<PostColumns>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem onClick={() => navigator.clipboard.writeText(post.id)}>
-              Copy post ID
+              <Copy /> Post ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/admin/posts/${post.id}/edit`}>Edit post</Link>
+              <Link href={`/admin/posts/${post.id}/edit`}>
+                <Pencil />
+                Edit
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Delete post</DropdownMenuItem>
+            <DeletePostMenuItem id={post.id} title={post.title} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

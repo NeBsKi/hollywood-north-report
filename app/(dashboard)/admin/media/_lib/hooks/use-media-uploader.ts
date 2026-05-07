@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { confirmUploadAction, createUploadUrlAction } from '../actions'
 import { MAX_UPLOAD_BYTES } from '../schemas'
+import type { MediaSelection } from '../types'
 import {
   formatFileSize,
   isAllowedMime,
@@ -14,11 +15,15 @@ import {
 
 type Stage = 'idle' | 'preparing' | 'uploading' | 'finalizing'
 
+export type UseMediaUploaderOptions = {
+  onUploaded?: (media: MediaSelection) => void
+}
+
 function getUnsupportedTypeMessage() {
   return 'Unsupported file type. Allowed: JPG, PNG, WEBP, AVIF.'
 }
 
-export function useMediaUploader() {
+export function useMediaUploader({ onUploaded }: UseMediaUploaderOptions = {}) {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
@@ -102,7 +107,7 @@ export function useMediaUploader() {
 
       setStage('finalizing')
       const dims = await readImageDimensions(file)
-      await confirmUploadAction({
+      const created = await confirmUploadAction({
         key: presigned.key,
         fileName: file.name,
         contentType,
@@ -112,10 +117,16 @@ export function useMediaUploader() {
       })
 
       toast.success('Upload complete')
-      startTransition(() => {
-        router.push('/admin/media')
-        router.refresh()
-      })
+      if (onUploaded) {
+        onUploaded(created)
+        setStage('idle')
+        setProgress(0)
+      } else {
+        startTransition(() => {
+          router.push('/admin/media')
+          router.refresh()
+        })
+      }
     } catch (e) {
       const message = e instanceof Error ? e.message : 'Upload failed'
       setError(message)
@@ -123,7 +134,7 @@ export function useMediaUploader() {
       setProgress(0)
       toast.error(message)
     }
-  }, [file, router, startTransition])
+  }, [file, onUploaded, router, startTransition])
 
   return {
     inputRef,

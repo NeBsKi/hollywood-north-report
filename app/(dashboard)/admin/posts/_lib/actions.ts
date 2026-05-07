@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import prisma from '@/lib/prisma'
 import { requireRole } from '@/lib/require-role'
-import { isUniqueViolation } from '@/lib/prisma-errors'
+import { isForeignKeyViolation, isUniqueViolation } from '@/lib/prisma-errors'
 import { postFormInput } from './schemas'
 
 export type PostActionState = {
@@ -36,6 +36,11 @@ function parsePostFormData(formData: FormData) {
     festivalIds: parseIdList(formData, 'festivalIds'),
     yearIds: parseIdList(formData, 'yearIds'),
   })
+}
+
+function normalizeCoverImageId(coverImageId: string | undefined): string | null {
+  const trimmed = coverImageId?.trim()
+  return trimmed ? trimmed : null
 }
 
 export async function createPostAction(
@@ -74,7 +79,7 @@ export async function createPostAction(
         author,
         status,
         publishDate,
-        coverImageId,
+        coverImageId: normalizeCoverImageId(coverImageId),
         metaTitle: metaTitle || title,
         metaDescription,
         categories: {
@@ -89,12 +94,14 @@ export async function createPostAction(
         years: {
           create: yearIds.map((yearId) => ({ yearId })),
         },
-        // TODO: wire cover image uploading / media picker and set coverImageId.
       },
     })
   } catch (e) {
     if (isUniqueViolation(e, 'slug')) {
       return { fieldErrors: { slug: ['Slug already in use'] } }
+    }
+    if (isForeignKeyViolation(e, 'coverImage')) {
+      return { formError: 'Selected cover image no longer exists' }
     }
     return { formError: 'Could not create post' }
   }
@@ -142,7 +149,7 @@ export async function updatePostAction(
           author,
           status,
           publishDate,
-          coverImageId,
+          coverImageId: normalizeCoverImageId(coverImageId),
           metaTitle: metaTitle || title,
           metaDescription,
           categories: {
@@ -161,13 +168,15 @@ export async function updatePostAction(
             deleteMany: {},
             create: yearIds.map((yearId) => ({ yearId })),
           },
-          // TODO: wire cover image uploading / media picker and set coverImageId.
         },
       })
     })
   } catch (e) {
     if (isUniqueViolation(e, 'slug')) {
       return { fieldErrors: { slug: ['Slug already in use'] } }
+    }
+    if (isForeignKeyViolation(e, 'coverImage')) {
+      return { formError: 'Selected cover image no longer exists' }
     }
     return { formError: 'Could not update post' }
   }
