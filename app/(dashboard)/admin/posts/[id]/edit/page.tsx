@@ -12,8 +12,8 @@ import { notFound } from 'next/navigation'
 
 export default async function PostsEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const filters = await getPostFilters()
   const post = await getPost(id)
+  const filters = await getPostFilters()
 
   if (!post) notFound()
 

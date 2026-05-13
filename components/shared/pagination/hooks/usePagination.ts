@@ -7,26 +7,30 @@ const getRange = (start: number, end: number) =>
   Array.from({ length: end - start + 1 }, (_, i) => start + i)
 
 interface usePaginationProps {
-  total: number
+  pageCount: number
   currentPage: number
   siblingCount: number
 }
 
-export const usePagination = ({ total, currentPage = 1, siblingCount = 1 }: usePaginationProps) => {
+export const usePagination = ({
+  pageCount,
+  currentPage = 1,
+  siblingCount = 1,
+}: usePaginationProps) => {
   const paginationRange = useMemo(() => {
     const totalPageNumber = siblingCount + 5
 
-    if (totalPageNumber >= total) {
-      return getRange(1, total)
+    if (totalPageNumber >= pageCount) {
+      return getRange(1, pageCount)
     }
 
     const leftSiblingIndex = Math.max(currentPage - siblingCount, 1)
-    const rightSiblingIndex = Math.min(currentPage + siblingCount, total)
+    const rightSiblingIndex = Math.min(currentPage + siblingCount, pageCount)
 
     const shouldShowLeftDots = leftSiblingIndex > 2
-    const shouldShowRightDots = rightSiblingIndex < total - 2
+    const shouldShowRightDots = rightSiblingIndex < pageCount - 2
 
-    const lastPageIndex = total
+    const lastPageIndex = pageCount
 
     if (shouldShowLeftDots && shouldShowRightDots) {
       const middleRange = getRange(currentPage - siblingCount, currentPage + siblingCount)
@@ -37,15 +41,15 @@ export const usePagination = ({ total, currentPage = 1, siblingCount = 1 }: useP
       const leftItemCount = 3 + 2 * siblingCount
       const leftRange = getRange(1, leftItemCount)
 
-      return [...leftRange, DOTS, total]
+      return [...leftRange, DOTS, pageCount]
     }
 
     if (shouldShowLeftDots) {
       const rightItemCount = 3 + 2 * siblingCount
-      const rightRange = getRange(total - rightItemCount + 1, total)
+      const rightRange = getRange(pageCount - rightItemCount + 1, pageCount)
       return [FIRST_PAGE_INDEX, DOTS, ...rightRange]
     }
-  }, [total, currentPage, siblingCount])
+  }, [pageCount, currentPage, siblingCount])
 
   return paginationRange || []
 }

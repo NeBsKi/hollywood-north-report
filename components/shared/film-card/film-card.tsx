@@ -42,7 +42,7 @@ export const FilmCard = ({
       className={containerClass()}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
+      viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
       {imageUrl && (
@@ -50,7 +50,7 @@ export const FilmCard = ({
           className={cn(imageWrapperClass(), imageWrapperClassName)}
           initial={{ filter: 'blur(10px)' }}
           whileInView={{ filter: 'blur(0px)' }}
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <Image alt={title} src={imageUrl} fill className="object-cover" />

@@ -8,14 +8,15 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { requireAdmin } from '@/lib/require-role'
-import type { Role } from '@/lib/roles'
 import { getUser } from '../../_lib/queries'
 import { UserForm } from '../../_components/user-form'
 
 export default async function EditUserPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin()
+
   const { id } = await params
   const user = await getUser(id)
+
   if (!user) notFound()
 
   return (
@@ -33,14 +34,7 @@ export default async function EditUserPage({ params }: { params: Promise<{ id: s
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <UserForm
-        initial={{
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role as Role,
-        }}
-      />
+      <UserForm user={user} />
     </div>
   )
 }

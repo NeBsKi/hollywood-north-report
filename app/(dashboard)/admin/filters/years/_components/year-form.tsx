@@ -6,16 +6,15 @@ import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import {
-  createYearAction,
-  updateYearAction,
-  type YearActionState,
-} from '../_lib/actions'
+import { createYearAction, updateYearAction, type YearActionState } from '../_lib/actions'
+import type { Year } from '@/generated/prisma/client'
 
-type Initial = { id: string; value: number } | undefined
+interface YearFormProps {
+  year?: Pick<Year, 'id' | 'value'>
+}
 
-export function YearForm({ initial }: { initial?: Initial }) {
-  const action = initial ? updateYearAction.bind(null, initial.id) : createYearAction
+export function YearForm({ year }: YearFormProps) {
+  const action = year ? updateYearAction.bind(null, year.id) : createYearAction
 
   const [state, formAction] = useActionState<YearActionState, FormData>(action, {})
 
@@ -25,7 +24,7 @@ export function YearForm({ initial }: { initial?: Initial }) {
         label="Year"
         name="value"
         type="number"
-        defaultValue={initial?.value ? String(initial.value) : undefined}
+        defaultValue={year?.value ? String(year.value) : undefined}
         error={state.fieldErrors?.value?.[0]}
         min={1900}
         max={3000}
@@ -33,7 +32,7 @@ export function YearForm({ initial }: { initial?: Initial }) {
       />
       {state.formError && <p className="text-destructive text-sm">{state.formError}</p>}
       <div className="flex items-center gap-2">
-        <SubmitButton>{initial ? 'Save changes' : 'Create year'}</SubmitButton>
+        <SubmitButton>{year ? 'Save changes' : 'Create year'}</SubmitButton>
         <Button asChild variant="ghost">
           <Link href="/admin/filters/years">Cancel</Link>
         </Button>

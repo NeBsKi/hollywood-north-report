@@ -13,6 +13,7 @@ import { CategoryForm } from '../../_components/category-form'
 export default async function EditCategoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const category = await getCategory(id)
+
   if (!category) notFound()
 
   return (

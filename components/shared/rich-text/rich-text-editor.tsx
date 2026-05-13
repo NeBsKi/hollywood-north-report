@@ -20,7 +20,7 @@ export type RichTextEditorProps = {
   ariaLabel?: string
   ariaInvalid?: boolean
   minHeightClass?: string
-  /** Lexical namespace - keep unique per editor type if you have multiple kinds. */
+  maxHeightClass?: string
   namespace?: string
 }
 
@@ -30,6 +30,7 @@ export function RichTextEditor({
   ariaLabel,
   ariaInvalid,
   minHeightClass = 'min-h-40',
+  maxHeightClass = 'max-h-96',
   namespace = 'RichText',
 }: RichTextEditorProps) {
   const initialConfig = useMemo<InitialConfigType>(
@@ -61,8 +62,9 @@ export function RichTextEditor({
               aria-label={ariaLabel}
               aria-invalid={ariaInvalid || undefined}
               className={cn(
-                'w-full resize-none px-3 py-2 text-base outline-none md:text-sm',
+                'w-full resize-none overflow-y-auto px-3 py-2 text-base outline-none md:text-sm',
                 minHeightClass,
+                maxHeightClass,
               )}
             />
           }

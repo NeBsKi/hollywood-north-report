@@ -11,13 +11,14 @@ import {
   updateFestivalAction,
   type FestivalActionState,
 } from '../_lib/actions'
+import type { Festival } from '@/generated/prisma/client'
 
-type Initial = { id: string; name: string; slug: string } | undefined
+interface FestivalFormProps {
+  festival?: Pick<Festival, 'id' | 'name' | 'slug'>
+}
 
-export function FestivalForm({ initial }: { initial?: Initial }) {
-  const action = initial
-    ? updateFestivalAction.bind(null, initial.id)
-    : createFestivalAction
+export function FestivalForm({ festival }: FestivalFormProps) {
+  const action = festival ? updateFestivalAction.bind(null, festival.id) : createFestivalAction
 
   const [state, formAction] = useActionState<FestivalActionState, FormData>(action, {})
 
@@ -26,20 +27,20 @@ export function FestivalForm({ initial }: { initial?: Initial }) {
       <Field
         label="Name"
         name="name"
-        defaultValue={initial?.name}
+        defaultValue={festival?.name}
         error={state.fieldErrors?.name?.[0]}
         autoFocus
       />
       <Field
         label="Slug"
         name="slug"
-        defaultValue={initial?.slug}
+        defaultValue={festival?.slug}
         error={state.fieldErrors?.slug?.[0]}
         placeholder="e.g. toronto-international-film-festival"
       />
       {state.formError && <p className="text-destructive text-sm">{state.formError}</p>}
       <div className="flex items-center gap-2">
-        <SubmitButton>{initial ? 'Save changes' : 'Create festival'}</SubmitButton>
+        <SubmitButton>{festival ? 'Save changes' : 'Create festival'}</SubmitButton>
         <Button asChild variant="ghost">
           <Link href="/admin/filters/festivals">Cancel</Link>
         </Button>

@@ -6,16 +6,15 @@ import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import {
-  createGenreAction,
-  updateGenreAction,
-  type GenreActionState,
-} from '../_lib/actions'
+import { createGenreAction, updateGenreAction, type GenreActionState } from '../_lib/actions'
+import type { Genre } from '@/generated/prisma/client'
 
-type Initial = { id: string; name: string; slug: string } | undefined
+interface GenreFormProps {
+  genre?: Pick<Genre, 'id' | 'name' | 'slug'>
+}
 
-export function GenreForm({ initial }: { initial?: Initial }) {
-  const action = initial ? updateGenreAction.bind(null, initial.id) : createGenreAction
+export function GenreForm({ genre }: GenreFormProps) {
+  const action = genre ? updateGenreAction.bind(null, genre.id) : createGenreAction
 
   const [state, formAction] = useActionState<GenreActionState, FormData>(action, {})
 
@@ -24,20 +23,20 @@ export function GenreForm({ initial }: { initial?: Initial }) {
       <Field
         label="Name"
         name="name"
-        defaultValue={initial?.name}
+        defaultValue={genre?.name}
         error={state.fieldErrors?.name?.[0]}
         autoFocus
       />
       <Field
         label="Slug"
         name="slug"
-        defaultValue={initial?.slug}
+        defaultValue={genre?.slug}
         error={state.fieldErrors?.slug?.[0]}
         placeholder="e.g. psychological-thriller"
       />
       {state.formError && <p className="text-destructive text-sm">{state.formError}</p>}
       <div className="flex items-center gap-2">
-        <SubmitButton>{initial ? 'Save changes' : 'Create genre'}</SubmitButton>
+        <SubmitButton>{genre ? 'Save changes' : 'Create genre'}</SubmitButton>
         <Button asChild variant="ghost">
           <Link href="/admin/filters/genres">Cancel</Link>
         </Button>

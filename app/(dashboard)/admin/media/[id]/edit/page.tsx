@@ -15,6 +15,7 @@ export default async function EditMediaPage({ params }: { params: Promise<{ id: 
   await requireAdmin()
   const { id } = await params
   const media = await getMedia(id)
+
   if (!media) notFound()
 
   return (

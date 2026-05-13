@@ -13,6 +13,7 @@ import { YearForm } from '../../_components/year-form'
 export default async function EditYearPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const year = await getYear(id)
+
   if (!year) notFound()
 
   return (
@@ -30,12 +31,7 @@ export default async function EditYearPage({ params }: { params: Promise<{ id: s
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <YearForm
-        initial={{
-          id: year.id,
-          value: year.value,
-        }}
-      />
+      <YearForm year={year} />
     </div>
   )
 }

@@ -7,10 +7,10 @@ export const PaginationItem = ({
   page = 1,
   currentPage = 1,
   onChange,
-  total,
+  pageCount,
 }: PaginationItemProps) => {
-  const isFirstPage = currentPage === 1
-  const isLastPage = currentPage === total
+  const isFirstPage = currentPage <= 1
+  const isLastPage = currentPage >= pageCount
   const isPrevButton = type === 'prev'
   const disabled = isPrevButton ? isFirstPage : isLastPage
   const navLabel = isPrevButton ? 'go to previous page' : 'go to next page'
@@ -24,7 +24,7 @@ export const PaginationItem = ({
           onClick={() => onChange?.(page)}
           type="button"
           aria-label={`go to page ${page}`}
-          aria-current="page"
+          aria-current={selected ? 'page' : undefined}
           tabIndex={0}
         >
           {page}

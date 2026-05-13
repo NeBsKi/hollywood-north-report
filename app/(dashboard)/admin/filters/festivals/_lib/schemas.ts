@@ -15,7 +15,7 @@ export type FestivalInput = z.infer<typeof festivalInput>
 
 export const listParams = z.object({
   page: z.coerce.number().int().min(1).default(1),
-  pageSize: z.coerce.number().int().min(1).max(100).default(20),
+  pageSize: z.coerce.number().int().min(1).max(100).default(10),
   q: z.string().trim().optional(),
   sort: z
     .enum(['name:asc', 'name:desc', 'createdAt:asc', 'createdAt:desc'])

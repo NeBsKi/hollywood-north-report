@@ -40,7 +40,7 @@ export type UpdateMediaInput = z.infer<typeof updateMediaInput>
 
 export const listParams = z.object({
   page: z.coerce.number().int().min(1).default(1),
-  pageSize: z.coerce.number().int().min(1).max(100).default(24),
+  pageSize: z.coerce.number().int().min(1).max(100).default(10),
   q: z.string().trim().optional(),
   sort: z
     .enum(['createdAt:desc', 'createdAt:asc', 'fileName:asc', 'fileName:desc'])

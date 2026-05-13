@@ -7,23 +7,28 @@ import { usePagination } from './hooks/usePagination'
 import type { PaginationProps } from './pagination.types'
 
 export const Pagination = ({
-  total = 99,
+  total,
+  pageSize,
   currentPage = 1,
   onChange,
   siblingCount = 1,
   className,
   ...rest
 }: PaginationProps) => {
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+
   const pages = usePagination({
-    total,
+    pageCount,
     currentPage,
     siblingCount,
   })
 
+  if (pageCount <= 1) return null
+
   const paginationItemProps = {
     currentPage,
     onChange,
-    total,
+    pageCount,
   }
 
   return (

@@ -24,6 +24,7 @@ type RichTextFieldProps = {
   description?: string
   error?: string
   minHeightClass?: RichTextEditorProps['minHeightClass']
+  maxHeightClass?: RichTextEditorProps['maxHeightClass']
   namespace?: RichTextEditorProps['namespace']
 }
 
@@ -35,6 +36,7 @@ export function RichTextField({
   description,
   error,
   minHeightClass,
+  maxHeightClass,
   namespace,
 }: RichTextFieldProps) {
   return (
@@ -47,6 +49,7 @@ export function RichTextField({
           ariaLabel={label}
           ariaInvalid={!!error}
           minHeightClass={minHeightClass}
+          maxHeightClass={maxHeightClass}
           namespace={namespace}
         />
       </div>

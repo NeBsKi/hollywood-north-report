@@ -1,6 +1,6 @@
 export interface FilmCardProps {
   title: string
-  author: string
+  author?: string
   category?: string
   description?: string
   imageUrl?: string

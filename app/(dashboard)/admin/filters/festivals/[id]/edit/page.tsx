@@ -13,6 +13,7 @@ import { FestivalForm } from '../../_components/festival-form'
 export default async function EditFestivalPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const festival = await getFestival(id)
+
   if (!festival) notFound()
 
   return (
@@ -30,13 +31,7 @@ export default async function EditFestivalPage({ params }: { params: Promise<{ i
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <FestivalForm
-        initial={{
-          id: festival.id,
-          name: festival.name,
-          slug: festival.slug,
-        }}
-      />
+      <FestivalForm festival={festival} />
     </div>
   )
 }

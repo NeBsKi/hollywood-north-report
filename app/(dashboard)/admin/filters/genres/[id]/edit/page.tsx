@@ -13,6 +13,7 @@ import { GenreForm } from '../../_components/genre-form'
 export default async function EditGenrePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const genre = await getGenre(id)
+
   if (!genre) notFound()
 
   return (
@@ -30,13 +31,7 @@ export default async function EditGenrePage({ params }: { params: Promise<{ id: 
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <GenreForm
-        initial={{
-          id: genre.id,
-          name: genre.name,
-          slug: genre.slug,
-        }}
-      />
+      <GenreForm genre={genre} />
     </div>
   )
 }

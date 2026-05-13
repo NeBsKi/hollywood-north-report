@@ -7,36 +7,25 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { ROLES, type Role } from '@/lib/roles'
-import {
-  createUserAction,
-  updateUserAction,
-  type UserActionState,
-} from '../_lib/actions'
+import { createUserAction, updateUserAction, type UserActionState } from '../_lib/actions'
+import type { User } from '@/generated/prisma/client'
 
-type Initial = {
-  id: string
-  name: string
-  email: string
-  role: Role
+interface UserFormProps {
+  user?: Pick<User, 'id' | 'name' | 'email' | 'role'>
 }
 
-export function UserForm({ initial }: { initial?: Initial }) {
-  const isEdit = !!initial
-  const action = isEdit
-    ? updateUserAction.bind(null, initial!.id)
-    : createUserAction
+export function UserForm({ user }: UserFormProps) {
+  const isEdit = !!user
+  const action = isEdit ? updateUserAction.bind(null, user?.id) : createUserAction
 
-  const [state, formAction] = useActionState<UserActionState, FormData>(
-    action,
-    {},
-  )
+  const [state, formAction] = useActionState<UserActionState, FormData>(action, {})
 
   return (
     <form action={formAction} className="max-w-xl space-y-6">
       <Field
         label="Name"
         name="name"
-        defaultValue={initial?.name}
+        defaultValue={user?.name}
         error={state.fieldErrors?.name?.[0]}
         autoFocus
       />
@@ -44,7 +33,7 @@ export function UserForm({ initial }: { initial?: Initial }) {
         label="Email"
         name="email"
         type="email"
-        defaultValue={initial?.email}
+        defaultValue={user?.email}
         error={state.fieldErrors?.email?.[0]}
       />
       {!isEdit && (
@@ -56,13 +45,8 @@ export function UserForm({ initial }: { initial?: Initial }) {
           placeholder="At least 8 characters"
         />
       )}
-      <RoleField
-        defaultValue={initial?.role ?? 'USER'}
-        error={state.fieldErrors?.role?.[0]}
-      />
-      {state.formError && (
-        <p className="text-destructive text-sm">{state.formError}</p>
-      )}
+      <RoleField defaultValue={user?.role ?? 'USER'} error={state.fieldErrors?.role?.[0]} />
+      {state.formError && <p className="text-destructive text-sm">{state.formError}</p>}
       <div className="flex items-center gap-2">
         <SubmitButton>{isEdit ? 'Save changes' : 'Create user'}</SubmitButton>
         <Button asChild variant="ghost">
@@ -96,13 +80,7 @@ function Field({ label, name, defaultValue, error, ...rest }: FieldProps) {
   )
 }
 
-function RoleField({
-  defaultValue,
-  error,
-}: {
-  defaultValue: Role
-  error?: string
-}) {
+function RoleField({ defaultValue, error }: { defaultValue: Role; error?: string }) {
   return (
     <div className="space-y-1.5">
       <Label htmlFor="role">Role</Label>
@@ -111,7 +89,7 @@ function RoleField({
         name="role"
         defaultValue={defaultValue}
         aria-invalid={!!error || undefined}
-        className="border-input bg-transparent focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] md:text-sm"
+        className="border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] md:text-sm"
       >
         {ROLES.map((r) => (
           <option key={r} value={r}>

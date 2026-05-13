@@ -13,7 +13,7 @@ import {
 } from '../_lib/actions'
 import type { Category } from '@/generated/prisma/client'
 
-type CategoryFormProps = {
+interface CategoryFormProps {
   category?: Pick<Category, 'id' | 'name' | 'slug'>
 }
 

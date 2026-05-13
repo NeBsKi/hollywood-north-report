@@ -1,14 +1,13 @@
 export interface PaginationProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   total: number
+  pageSize: number
   currentPage?: number
   onChange?: (page: number) => void
   siblingCount?: number
 }
 
-export interface PaginationItemProps extends Pick<
-  PaginationProps,
-  'currentPage' | 'onChange' | 'total'
-> {
+export interface PaginationItemProps extends Pick<PaginationProps, 'currentPage' | 'onChange'> {
+  pageCount: number
   type?: 'prev' | 'page' | 'next'
   page?: number
 }
