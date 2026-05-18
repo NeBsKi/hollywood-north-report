@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { $isHeadingNode } from '@lexical/rich-text'
 import { mergeRegister } from '@lexical/utils'
 import {
   $getSelection,
@@ -13,6 +14,7 @@ import {
 } from 'lexical'
 
 export type ToolbarState = {
+  blockType: 'paragraph' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'quote'
   isBold: boolean
   isItalic: boolean
   isUnderline: boolean
@@ -23,6 +25,7 @@ export type ToolbarState = {
 }
 
 const initialState: ToolbarState = {
+  blockType: 'paragraph',
   isBold: false,
   isItalic: false,
   isUnderline: false,
@@ -54,9 +57,27 @@ export function useToolbarState(): ToolbarState {
       const node = selection.anchor.getNode()
       const parent = node.getParent()
       const isLink = parent?.getType() === 'link' || node.getType() === 'link'
+      const topLevelElement = node.getTopLevelElementOrThrow()
+      let blockType: ToolbarState['blockType'] = 'paragraph'
+      if (topLevelElement.getType() === 'quote') {
+        blockType = 'quote'
+      } else if ($isHeadingNode(topLevelElement)) {
+        const headingTag = topLevelElement.getTag()
+        if (
+          headingTag === 'h1' ||
+          headingTag === 'h2' ||
+          headingTag === 'h3' ||
+          headingTag === 'h4' ||
+          headingTag === 'h5' ||
+          headingTag === 'h6'
+        ) {
+          blockType = headingTag
+        }
+      }
 
       setState((prev) => ({
         ...prev,
+        blockType,
         isBold: selection.hasFormat('bold'),
         isItalic: selection.hasFormat('italic'),
         isUnderline: selection.hasFormat('underline'),

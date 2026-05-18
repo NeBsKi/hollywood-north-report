@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
 import { FilmCard } from '@/components/shared/film-card'
 import { Section } from '@/components/shared/section'
 import { FilmHeader, FilmBody } from '@/components/features'
 import { getPostBySlug } from '@/lib/posts/posts'
-import { notFound } from 'next/navigation'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

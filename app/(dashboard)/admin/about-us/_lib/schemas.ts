@@ -48,7 +48,7 @@ type AboutBlockRow = {
   cards: unknown
 }
 
-function cardsFromDb(v: unknown): { title: string; content: string }[] {
+export function cardsFromDb(v: unknown): { title: string; content: string }[] {
   if (!Array.isArray(v)) return []
   return v.map((item) => {
     const o = item && typeof item === 'object' ? (item as Record<string, unknown>) : {}

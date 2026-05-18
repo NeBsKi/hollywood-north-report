@@ -7,7 +7,17 @@ import {
   INSERT_UNORDERED_LIST_COMMAND,
   REMOVE_LIST_COMMAND,
 } from '@lexical/list'
-import { FORMAT_TEXT_COMMAND, REDO_COMMAND, UNDO_COMMAND, type TextFormatType } from 'lexical'
+import { $createHeadingNode, $createQuoteNode } from '@lexical/rich-text'
+import {
+  $createParagraphNode,
+  $getSelection,
+  $isRangeSelection,
+  type ElementNode,
+  FORMAT_TEXT_COMMAND,
+  REDO_COMMAND,
+  UNDO_COMMAND,
+  type TextFormatType,
+} from 'lexical'
 import {
   BoldIcon,
   ItalicIcon,
@@ -41,6 +51,43 @@ export function Toolbar() {
 
   const removeList = () => {
     editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined)
+  }
+
+  const replaceCurrentBlock = (createNode: () => ElementNode) => {
+    const selection = $getSelection()
+    if (!$isRangeSelection(selection)) return
+
+    const anchorNode = selection.anchor.getNode()
+    const topLevelElement = anchorNode.getTopLevelElementOrThrow()
+    if (topLevelElement.getType() === 'root') return
+
+    const nextBlock = createNode()
+    const children = topLevelElement.getChildren()
+    if (children.length) {
+      nextBlock.append(...children)
+    }
+    topLevelElement.replace(nextBlock)
+    nextBlock.selectEnd()
+  }
+
+  const setBlockType = (kind: 'paragraph' | 'h1' | 'h2' | 'quote') => {
+    editor.update(() => {
+      if (kind === 'h1' || kind === 'h2') {
+        replaceCurrentBlock(() => $createHeadingNode(kind))
+        return
+      }
+
+      if (kind === 'quote') {
+        if (state.blockType === 'quote') {
+          replaceCurrentBlock(() => $createParagraphNode())
+          return
+        }
+        replaceCurrentBlock(() => $createQuoteNode())
+        return
+      }
+
+      replaceCurrentBlock(() => $createParagraphNode())
+    })
   }
 
   const toggleLink = () => {
@@ -91,6 +138,45 @@ export function Toolbar() {
         onClick={() => toggleFormat('strikethrough')}
       >
         <StrikethroughIcon className="size-4" />
+      </ToolbarButton>
+
+      <ToolbarDivider />
+
+      <ToolbarButton
+        label="Paragraph"
+        active={state.blockType === 'paragraph'}
+        onClick={() => setBlockType('paragraph')}
+      >
+        <span aria-hidden className="text-xs font-semibold">
+          P
+        </span>
+      </ToolbarButton>
+      <ToolbarButton
+        label="Heading 1"
+        active={state.blockType === 'h1'}
+        onClick={() => setBlockType('h1')}
+      >
+        <span aria-hidden className="text-xs font-semibold">
+          H1
+        </span>
+      </ToolbarButton>
+      <ToolbarButton
+        label="Heading 2"
+        active={state.blockType === 'h2'}
+        onClick={() => setBlockType('h2')}
+      >
+        <span aria-hidden className="text-xs font-semibold">
+          H2
+        </span>
+      </ToolbarButton>
+      <ToolbarButton
+        label={state.blockType === 'quote' ? 'Remove quote' : 'Quote'}
+        active={state.blockType === 'quote'}
+        onClick={() => setBlockType('quote')}
+      >
+        <span aria-hidden className="text-xs font-semibold">
+          "
+        </span>
       </ToolbarButton>
 
       <ToolbarDivider />
