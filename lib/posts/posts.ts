@@ -121,3 +121,14 @@ export async function getPostsFilters(): Promise<PostsFilters> {
     years: years.map((year) => ({ value: year.id, label: String(year.value) })),
   }
 }
+
+export async function getPostBySlug(slug: string) {
+  const post = await prisma.post.findUnique({
+    where: { slug },
+    select: { ...POST_SELECT, content: true },
+  })
+
+  if (!post) return null
+
+  return post
+}

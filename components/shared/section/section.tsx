@@ -34,7 +34,7 @@ export const Section = ({
             'xl:mt-8': boxed,
           })}
         >
-          <ViewMoreBtn />
+          <ViewMoreBtn href={viewMoreButton.href} />
         </div>
       )}
     </section>
