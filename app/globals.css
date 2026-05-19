@@ -4,8 +4,8 @@
 @import '../styles/_breakpoints.css';
 @import '../styles/_colors.css';
 @import '../styles/_typography.css';
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 

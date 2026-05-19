@@ -5,6 +5,19 @@ import { listAboutPageBlocks } from '@/app/(dashboard)/admin/about-us/_lib/queri
 import { ABOUT_BLOCK_TYPE } from '@/app/(dashboard)/admin/about-us/_lib/types'
 import { cardsFromDb } from '@/app/(dashboard)/admin/about-us/_lib/schemas'
 
+const CONTENT_CLASS = [
+  '[&_h1]:my-4 [&_h1]:text-[2.5rem] [&_h1]:leading-tight [&_h1]:font-fell [&_h1]:uppercase',
+  '[&_h2]:my-3 [&_h2]:text-[2rem] [&_h2]:leading-tight [&_h2]:font-fell [&_h2]:uppercase',
+  '[&_h3]:my-3 [&_h3]:text-[1.75rem] [&_h3]:leading-snug [&_h3]:font-fell [&_h3]:uppercase',
+  '[&_h4]:my-2 [&_h4]:text-[1.5rem] [&_h4]:leading-snug [&_h4]:font-fell [&_h4]:uppercase',
+  '[&_h5]:my-2 [&_h5]:text-[1.25rem] [&_h5]:leading-normal [&_h5]:font-fell [&_h5]:uppercase',
+  '[&_h6]:my-2 [&_h6]:text-[1.125rem] [&_h6]:leading-normal [&_h6]:font-fell [&_h6]:uppercase',
+  '[&_p]:my-8',
+  '[&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ul>li]:my-4 [&_ul>li>p]:my-0',
+  '[&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol>li]:my-4 [&_ol>li>p]:my-0',
+  '[&_strong]:font-medium [&_b]:font-medium',
+].join(' ')
+
 export default async function AboutUsPage() {
   const blocks = await listAboutPageBlocks()
 
@@ -20,6 +33,7 @@ export default async function AboutUsPage() {
           title={block.title}
           className="mb-12 md:mb-20 xl:mb-26"
           boxed={isBoxed}
+          viewMoreButton={block.title === 'What We Publish' ? { href: '/reviews' } : undefined}
         >
           {block.content && (
             <motion.div
@@ -27,7 +41,7 @@ export default async function AboutUsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="text-accent-500 font-brandon text-base/6 [&>p]:my-6"
+              className={`text-accent-500 font-brandon text-base/6 ${CONTENT_CLASS}`}
               dangerouslySetInnerHTML={{ __html: block.content }}
             />
           )}
@@ -51,7 +65,7 @@ export default async function AboutUsPage() {
           >
             {block.content && (
               <div
-                className="text-accent-500 font-brandon w-full pr-12 text-base/6 md:w-1/2 [&>p]:my-6"
+                className={`text-accent-500 font-brandon w-full pr-12 text-base/6 md:w-1/2 ${CONTENT_CLASS}`}
                 dangerouslySetInnerHTML={{ __html: block.content }}
               />
             )}
