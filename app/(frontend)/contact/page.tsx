@@ -2,6 +2,8 @@ import * as motion from 'motion/react-client'
 import { ContactForm } from '@/components/features'
 import { Section } from '@/components/shared/section'
 
+export const revalidate = 300
+
 export default function ContactPage() {
   return (
     <Section title="Contact" hasBackground={false}>

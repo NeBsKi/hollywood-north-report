@@ -1,6 +1,6 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 import type { z } from 'zod'
 import { AboutBlockType, Prisma } from '@/generated/prisma/client'
@@ -99,5 +99,6 @@ export async function saveAboutPageAction(
 
   revalidatePath('/admin/about-us', 'page')
   revalidatePath('/admin', 'layout')
+  revalidateTag('about')
   redirect('/admin/about-us')
 }

@@ -3,6 +3,8 @@ import { FilmCard } from '@/components/shared/film-card'
 import { Section } from '@/components/shared/section'
 import { getPosts } from '@/lib/posts/posts'
 
+export const revalidate = 120
+
 export default async function Home() {
   const reviews = await getPosts({ limit: 4, categorySlug: 'reviews' })
   const awards = await getPosts({ limit: 4, categorySlug: 'industries-and-awards' })

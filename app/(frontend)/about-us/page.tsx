@@ -5,6 +5,8 @@ import { listAboutPageBlocks } from '@/app/(dashboard)/admin/about-us/_lib/queri
 import { ABOUT_BLOCK_TYPE } from '@/app/(dashboard)/admin/about-us/_lib/types'
 import { cardsFromDb } from '@/app/(dashboard)/admin/about-us/_lib/schemas'
 
+export const revalidate = 120
+
 const CONTENT_CLASS = [
   '[&_h1]:my-4 [&_h1]:text-[2.5rem] [&_h1]:leading-tight [&_h1]:font-fell [&_h1]:uppercase',
   '[&_h2]:my-3 [&_h2]:text-[2rem] [&_h2]:leading-tight [&_h2]:font-fell [&_h2]:uppercase',
@@ -93,7 +95,10 @@ export default async function AboutUsPage() {
             className="grid grid-cols-1 gap-6 md:grid-cols-3"
           >
             {cards.map((card: { title: string; content: string }) => (
-              <div className="border-secondary-200 text-accent-400 bg-secondary-50 rounded-lg border p-6 px-6 py-10 text-center text-base/6">
+              <div
+                key={card.title}
+                className="border-secondary-200 text-accent-400 bg-secondary-50 rounded-lg border p-6 px-6 py-10 text-center text-base/6"
+              >
                 <p className="text-accent-500 font-medium">{card.title}</p>
                 <p className="mt-4">{card.content}</p>
               </div>
