@@ -3,6 +3,7 @@ export type PostListFilterValue = string | string[] | undefined
 export type PostListParams = {
   page?: number | string
   pageSize?: number | string
+  q?: string
   categories?: PostListFilterValue
   genres?: PostListFilterValue
   festivals?: PostListFilterValue

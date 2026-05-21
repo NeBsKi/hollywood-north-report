@@ -26,15 +26,12 @@ const POST_SELECT = {
 const POSTS_LIST_CACHE_REVALIDATE_SECONDS = 60
 const POSTS_FILTERS_CACHE_REVALIDATE_SECONDS = 300
 
-const getPostsCacheKeyParts = ({
-  categorySlug,
-  params = {},
-  limit,
-}: GetPostsArgs): string[] => {
+const getPostsCacheKeyParts = ({ categorySlug, params = {}, limit }: GetPostsArgs): string[] => {
   const categories = normalizeIds(params.categories).sort().join(',')
   const genres = normalizeIds(params.genres).sort().join(',')
   const festivals = normalizeIds(params.festivals).sort().join(',')
   const years = normalizeIds(params.years).sort().join(',')
+  const query = typeof params.q === 'string' ? params.q.trim().toLowerCase() : ''
   const page = String(coerceInt(params.page, 1))
   const pageSize = String(coerceInt(params.pageSize, DEFAULT_PAGE_SIZE))
 
@@ -47,6 +44,7 @@ const getPostsCacheKeyParts = ({
     `genres:${genres}`,
     `festivals:${festivals}`,
     `years:${years}`,
+    `q:${query}`,
   ]
 }
 
@@ -77,6 +75,7 @@ export async function getPosts({
       const genres = normalizeIds(params.genres)
       const festivals = normalizeIds(params.festivals)
       const years = normalizeIds(params.years)
+      const query = typeof params.q === 'string' ? params.q.trim() : ''
 
       const andClauses: Array<Record<string, unknown>> = []
 
@@ -94,6 +93,16 @@ export async function getPosts({
 
       if (years.length > 0) {
         andClauses.push({ years: { some: { yearId: { in: years } } } })
+      }
+
+      if (query.length > 0) {
+        andClauses.push({
+          OR: [
+            { title: { contains: query, mode: 'insensitive' } },
+            { slug: { contains: query, mode: 'insensitive' } },
+            { author: { contains: query, mode: 'insensitive' } },
+          ],
+        })
       }
 
       const where = {

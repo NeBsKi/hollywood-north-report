@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { AnimatePresence } from 'motion/react'
 
 import { Logo } from '@/components/shared/logo'
@@ -16,6 +17,12 @@ import { Navbar } from './_components/navbar'
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setIsMenuOpen(false)
+    setIsSearchOpen(false)
+  }, [pathname])
 
   const handleSearchClick = () => {
     setIsMenuOpen(false)

@@ -12,11 +12,11 @@ export const SearchInput = ({ isMobile = false }: SearchInputProps) => {
   })
 
   return (
-    <form className={formClass()}>
+    <form className={formClass()} action="/search" method="get">
       <button type="submit" className={buttonClass()}>
         <Search className="text-white-600 xl:text-white-700 h-5 w-5" />
       </button>
-      <input type="text" placeholder="Search" className={inputClass()} />
+      <input type="text" name="q" placeholder="Search" className={inputClass()} />
     </form>
   )
 }
