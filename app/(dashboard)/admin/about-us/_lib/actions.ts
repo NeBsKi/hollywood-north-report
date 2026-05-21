@@ -99,6 +99,6 @@ export async function saveAboutPageAction(
 
   revalidatePath('/admin/about-us', 'page')
   revalidatePath('/admin', 'layout')
-  revalidateTag('about')
+  revalidateTag('about', 'max')
   redirect('/admin/about-us')
 }
