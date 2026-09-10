@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import prisma from '@/lib/prisma'
 import { auth } from '@/lib/auth'
-import { AboutBlockType, Prisma } from '@/generated/prisma/client'
+import { AboutBlockType, HomePageLayoutKey, Prisma } from '@/generated/prisma/client'
 
 const categories = [
   'Awards',
@@ -126,6 +126,56 @@ const aboutPageBlocks: Array<{
   },
 ]
 
+const homePageSections: Array<{
+  layoutKey: HomePageLayoutKey
+  title: string
+  categorySlug: string | null
+  postLimit: number
+  viewMoreHref: string | null
+  sortOrder: number
+}> = [
+  {
+    layoutKey: HomePageLayoutKey.FEATURED_WITH_ROW,
+    title: 'Latest Film Reviews',
+    categorySlug: 'reviews',
+    postLimit: 4,
+    viewMoreHref: '/reviews',
+    sortOrder: 1,
+  },
+  {
+    layoutKey: HomePageLayoutKey.SPLIT_FEATURE_LIST,
+    title: 'Industries & Awards',
+    categorySlug: 'industries-and-awards',
+    postLimit: 4,
+    viewMoreHref: '/industries-awards',
+    sortOrder: 2,
+  },
+  {
+    layoutKey: HomePageLayoutKey.NUMBERED_LIST_WITH_CARDS,
+    title: 'Selected Essays',
+    categorySlug: 'festival',
+    postLimit: 5,
+    viewMoreHref: null,
+    sortOrder: 3,
+  },
+  {
+    layoutKey: HomePageLayoutKey.TRIPLE_COLUMN_SPOTLIGHT,
+    title: "Editor's Selections",
+    categorySlug: 'analysis',
+    postLimit: 7,
+    viewMoreHref: null,
+    sortOrder: 4,
+  },
+  {
+    layoutKey: HomePageLayoutKey.NUMBERED_ROW,
+    title: 'You May Also Like',
+    categorySlug: 'retrospectives',
+    postLimit: 3,
+    viewMoreHref: null,
+    sortOrder: 5,
+  },
+]
+
 const slugify = (value: string) =>
   value
     .toLowerCase()
@@ -235,10 +285,50 @@ async function seedAboutPage() {
   console.log(`Seeded About Us blocks (${aboutPageBlocks.length} rows).`)
 }
 
+async function seedHomePageSections() {
+  // Sections are fully admin-managed once created, so only seed defaults into an empty table.
+  // This keeps re-seeding idempotent without relying on a unique key per layout.
+  const count = await prisma.homePageSection.count()
+  if (count > 0) {
+    console.log('Homepage sections already exist, skipping homepage seed.')
+    return
+  }
+
+  const wantedSlugs = homePageSections
+    .map(({ categorySlug }) => categorySlug)
+    .filter((slug): slug is string => slug !== null)
+
+  const existingCategories = await prisma.category.findMany({
+    where: { slug: { in: wantedSlugs } },
+    select: { id: true, slug: true },
+  })
+  const categoryIdBySlug = new Map(existingCategories.map(({ slug, id }) => [slug, id]))
+
+  for (const { categorySlug, ...section } of homePageSections) {
+    await prisma.homePageSection.create({
+      data: {
+        ...section,
+        categoryId: categorySlug ? (categoryIdBySlug.get(categorySlug) ?? null) : null,
+        isPublished: true,
+      },
+    })
+  }
+
+  const missingSlugs = wantedSlugs.filter((slug) => !categoryIdBySlug.has(slug))
+  if (missingSlugs.length > 0) {
+    console.warn(
+      `Homepage sections seeded without a category for missing slugs: ${missingSlugs.join(', ')}. Assign them in the admin panel.`,
+    )
+  }
+
+  console.log(`Seeded homepage sections (${homePageSections.length} rows).`)
+}
+
 async function main() {
   await ensureAdmin()
   await seedTaxonomies()
   await seedAboutPage()
+  await seedHomePageSections()
 }
 
 main()

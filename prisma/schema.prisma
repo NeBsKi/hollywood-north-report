@@ -70,12 +70,13 @@ model Verification {
 }
 
 model Category {
-  id        String         @id @default(cuid())
-  name      String
-  slug      String         @unique
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  posts     PostCategory[]
+  id               String            @id @default(cuid())
+  name             String
+  slug             String            @unique
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  posts            PostCategory[]
+  homePageSections HomePageSection[]
 
   @@index([name])
   @@map("category")
@@ -130,6 +131,24 @@ model AboutPageBlock {
 
   @@index([sortOrder])
   @@map("about_page_block")
+}
+
+model HomePageSection {
+  id           String            @id @default(cuid())
+  layoutKey    HomePageLayoutKey
+  title        String
+  categoryId   String?
+  category     Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  postLimit    Int?
+  viewMoreHref String?
+  sortOrder    Int
+  isPublished  Boolean           @default(true)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([sortOrder])
+  @@index([categoryId])
+  @@map("home_page_section")
 }
 
 model Post {
@@ -238,6 +257,14 @@ enum AboutBlockType {
   CONTENT
   CONTENT_WITH_QUOTE
   NESTED_CARDS
+}
+
+enum HomePageLayoutKey {
+  FEATURED_WITH_ROW
+  SPLIT_FEATURE_LIST
+  NUMBERED_LIST_WITH_CARDS
+  TRIPLE_COLUMN_SPOTLIGHT
+  NUMBERED_ROW
 }
 
 enum MediaStatus {
