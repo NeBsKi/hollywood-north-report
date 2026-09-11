@@ -2,9 +2,10 @@ import 'server-only'
 
 import { unstable_cache } from 'next/cache'
 import prisma from '@/lib/prisma'
+import type { Prisma } from '@/generated/prisma/client'
 
 import { DEFAULT_PAGE_SIZE } from './posts.constants'
-import type { GetPostsArgs, GetPostsResult, PostListItem } from './posts.types'
+import type { GetPostsArgs, GetPostsResult } from './posts.types'
 import { coerceInt, normalizeIds, toListItem } from './posts.utils'
 import type { PostsFilters } from './posts.types'
 
@@ -26,7 +27,12 @@ const POST_SELECT = {
 const POSTS_LIST_CACHE_REVALIDATE_SECONDS = 60
 const POSTS_FILTERS_CACHE_REVALIDATE_SECONDS = 300
 
-const getPostsCacheKeyParts = ({ categorySlug, params = {}, limit }: GetPostsArgs): string[] => {
+const getPostsCacheKeyParts = ({
+  categorySlug,
+  categoryId,
+  params = {},
+  limit,
+}: GetPostsArgs): string[] => {
   const categories = normalizeIds(params.categories).sort().join(',')
   const genres = normalizeIds(params.genres).sort().join(',')
   const festivals = normalizeIds(params.festivals).sort().join(',')
@@ -37,6 +43,7 @@ const getPostsCacheKeyParts = ({ categorySlug, params = {}, limit }: GetPostsArg
 
   return [
     `category:${categorySlug ?? ''}`,
+    `categoryId:${categoryId ?? ''}`,
     `limit:${String(limit ?? '')}`,
     `page:${page}`,
     `pageSize:${pageSize}`,
@@ -48,18 +55,50 @@ const getPostsCacheKeyParts = ({ categorySlug, params = {}, limit }: GetPostsArg
   ]
 }
 
+const getCategoryWhereClause = ({
+  categorySlug,
+  categoryId,
+}: Pick<GetPostsArgs, 'categorySlug' | 'categoryId'>): Prisma.PostWhereInput => {
+  if (categoryId) {
+    return {
+      categories: {
+        some: { categoryId },
+      },
+    }
+  }
+
+  if (categorySlug) {
+    return {
+      categories: {
+        some: { category: { slug: categorySlug } },
+      },
+    }
+  }
+
+  return {}
+}
+
+const getPostsListTag = ({ categorySlug, categoryId }: Pick<GetPostsArgs, 'categorySlug' | 'categoryId'>) => {
+  if (categoryId) return `posts:list:id:${categoryId}`
+  if (categorySlug) return `posts:list:${categorySlug}`
+  return 'posts:list:all'
+}
+
 export async function getPosts({
   categorySlug,
+  categoryId,
   params = {},
   limit,
 }: GetPostsArgs = {}): Promise<GetPostsResult> {
+  const categoryWhere = getCategoryWhereClause({ categorySlug, categoryId })
+
   return unstable_cache(
     async () => {
       if (limit) {
         const rows = await prisma.post.findMany({
           where: {
             status: 'PUBLISHED' as const,
-            categories: { some: { category: { slug: categorySlug } } },
+            ...categoryWhere,
           },
           orderBy: { publishDate: 'desc' },
           take: limit,
@@ -67,7 +106,7 @@ export async function getPosts({
         })
 
         return {
-          rows: rows.map(toListItem()),
+          rows: rows.map(toListItem(categoryId)),
         }
       }
 
@@ -107,7 +146,7 @@ export async function getPosts({
 
       const where = {
         status: 'PUBLISHED' as const,
-        categories: { some: { category: { slug: categorySlug } } },
+        ...categoryWhere,
         ...(andClauses.length > 0 ? { AND: andClauses } : {}),
       }
 
@@ -126,15 +165,15 @@ export async function getPosts({
       ])
 
       return {
-        rows: rows.map(toListItem()),
+        rows: rows.map(toListItem(categoryId)),
         total,
         page,
         pageSize,
       }
     },
-    ['posts', ...getPostsCacheKeyParts({ categorySlug, params, limit })],
+    ['posts', ...getPostsCacheKeyParts({ categorySlug, categoryId, params, limit })],
     {
-      tags: ['posts', `posts:list:${categorySlug ?? 'all'}`],
+      tags: ['posts', getPostsListTag({ categorySlug, categoryId })],
       revalidate: POSTS_LIST_CACHE_REVALIDATE_SECONDS,
     },
   )()

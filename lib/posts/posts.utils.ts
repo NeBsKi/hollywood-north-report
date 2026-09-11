@@ -22,10 +22,10 @@ export const coerceInt = (
 }
 
 export const toListItem =
-  (categoryId?: string) =>
+  (queriedCategoryId?: string) =>
   (post: PostRow): PostListItem => {
-    const primary = categoryId
-      ? (post.categories.find((entry) => entry.category.id !== categoryId)?.category ??
+    const primary = queriedCategoryId
+      ? (post.categories.find((entry) => entry.category.id !== queriedCategoryId)?.category ??
         post.categories[0]?.category)
       : post.categories[0]?.category
 
@@ -37,6 +37,7 @@ export const toListItem =
       metaDescription: post.metaDescription ?? undefined,
       publishDate: post.publishDate,
       coverImageUrl: post.coverMedia?.cardUrl ?? post.coverMedia?.url ?? undefined,
+      primaryCategoryId: primary?.id ?? undefined,
       primaryCategory: primary?.name ?? undefined,
       primaryCategorySlug: primary?.slug ?? undefined,
     }

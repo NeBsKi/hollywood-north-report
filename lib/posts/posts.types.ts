@@ -12,6 +12,7 @@ export type PostListParams = {
 
 export type GetPostsArgs = {
   categorySlug?: string
+  categoryId?: string
   params?: PostListParams
   limit?: number
 }
@@ -24,6 +25,7 @@ export type PostListItem = {
   metaDescription?: string
   publishDate: Date
   coverImageUrl?: string
+  primaryCategoryId?: string
   primaryCategory?: string
   primaryCategorySlug?: string
 }

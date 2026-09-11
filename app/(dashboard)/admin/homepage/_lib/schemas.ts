@@ -19,7 +19,7 @@ export const sectionInput = z.object({
     emptyToUndefined,
     z.coerce.number().int().min(1, 'Must be at least 1').max(24).optional(),
   ),
-  viewMoreHref: z.preprocess(emptyToUndefined, z.string().trim().max(500).optional()),
+  useCategoryViewMore: z.preprocess((v) => v === 'on' || v === 'true' || v === true, z.boolean()),
   sortOrder: z.preprocess(emptyToUndefined, z.coerce.number().int().min(0).default(0)),
   isPublished: z.preprocess((v) => v === 'on' || v === 'true' || v === true, z.boolean()),
 })
@@ -43,7 +43,6 @@ export function toSectionData(input: SectionInput) {
     layoutKey: input.layoutKey as HomePageLayoutKey,
     categoryId: input.categoryId ?? null,
     postLimit: input.postLimit ?? null,
-    viewMoreHref: input.viewMoreHref ?? null,
     sortOrder: input.sortOrder,
     isPublished: input.isPublished,
   }

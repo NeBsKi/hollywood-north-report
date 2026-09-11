@@ -30,6 +30,6 @@ export const getHomePageSection = (id: string) =>
 
 export const listCategoryOptions = () =>
   prisma.category.findMany({
-    select: { id: true, name: true },
+    select: { id: true, name: true, slug: true },
     orderBy: { name: 'asc' },
   })

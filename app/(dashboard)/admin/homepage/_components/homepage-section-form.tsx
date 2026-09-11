@@ -33,7 +33,7 @@ export type SectionFormValues = {
   isPublished: boolean
 }
 
-type CategoryOption = { id: string; name: string }
+type CategoryOption = { id: string; name: string; slug: string }
 
 interface HomePageSectionFormProps {
   section?: SectionFormValues
@@ -52,6 +52,11 @@ export function HomePageSectionForm({ section, categories }: HomePageSectionForm
     section?.layoutKey ?? HOME_LAYOUT_KEY_LIST[0]!,
   )
   const [categoryId, setCategoryId] = useState<string>(section?.categoryId ?? '')
+  const selectedCategory = categories.find((category) => category.id === categoryId)
+  const selectedCategoryHref = selectedCategory ? `/category/${selectedCategory.slug}` : null
+  const [useCategoryViewMore, setUseCategoryViewMore] = useState<boolean>(
+    Boolean(section?.viewMoreHref && selectedCategoryHref === section.viewMoreHref),
+  )
 
   return (
     <form action={formAction} className="max-w-xl space-y-6">
@@ -121,13 +126,28 @@ export function HomePageSectionForm({ section, categories }: HomePageSectionForm
         placeholder="Leave empty to use the layout default"
       />
 
-      <Field
-        label="View more link (optional)"
-        name="viewMoreHref"
-        defaultValue={section?.viewMoreHref ?? undefined}
-        error={fieldError('viewMoreHref')}
-        placeholder="e.g. /reviews"
-      />
+      <div className="space-y-1.5">
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="useCategoryViewMore"
+            name="useCategoryViewMore"
+            checked={useCategoryViewMore}
+            onCheckedChange={(checked) => setUseCategoryViewMore(checked === true)}
+          />
+          <Label htmlFor="useCategoryViewMore">Enable View more button</Label>
+        </div>
+        {useCategoryViewMore && selectedCategoryHref && (
+          <p className="text-muted-foreground text-sm">Target URL: {selectedCategoryHref}</p>
+        )}
+        {useCategoryViewMore && !selectedCategoryHref && (
+          <p className="text-sm text-amber-600 dark:text-amber-500">
+            Select a category to generate the View more URL.
+          </p>
+        )}
+        {fieldError('useCategoryViewMore') && (
+          <p className="text-destructive text-sm">{fieldError('useCategoryViewMore')}</p>
+        )}
+      </div>
 
       <Field
         label="Sort order"
