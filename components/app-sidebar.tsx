@@ -18,6 +18,7 @@ import {
   ImageIcon,
   InfoIcon,
   LayoutDashboardIcon,
+  LayoutTemplateIcon,
   FileTextIcon,
   UsersIcon,
 } from 'lucide-react'
@@ -35,6 +36,7 @@ type NavItem = {
 
 const navMain: NavItem[] = [
   { title: 'Dashboard', url: '/admin/dashboard', icon: <LayoutDashboardIcon />, roles: ['ADMIN'] },
+  { title: 'Homepage', url: '/admin/homepage', icon: <LayoutTemplateIcon />, roles: ['ADMIN'] },
   { title: 'About Us', url: '/admin/about-us', icon: <InfoIcon />, roles: ['ADMIN'] },
   {
     title: 'Blog Posts',

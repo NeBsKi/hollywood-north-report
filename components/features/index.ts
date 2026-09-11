@@ -1,3 +1,5 @@
 export { ContactForm } from './contact'
 export { FilmHeader } from './single-film/film-header'
 export { FilmBody } from './single-film/film-body'
+export { HomeSection } from './home/home-section'
+export { HomeFallback } from './home/home-fallback'
