@@ -50,6 +50,7 @@ export default async function FilmPage({ params }: { params: Promise<{ slug: str
           categories={post.categories.map(({ category }) => ({
             id: category.id,
             name: category.name,
+            slug: category.slug,
           }))}
         />
         <FilmBody>

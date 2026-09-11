@@ -16,6 +16,8 @@ export type SectionActionState = {
 
 const parse = (formData: FormData) => sectionInput.safeParse(Object.fromEntries(formData))
 
+const toCategoryHref = (slug: string) => `/category/${slug}`
+
 /** Refresh the admin list plus the public homepage that reads these sections. */
 function revalidateHomepage() {
   revalidateTag(HOME_SECTIONS_CACHE_TAG, 'max')
@@ -34,8 +36,28 @@ export async function createHomePageSectionAction(
     return { fieldErrors: z.flattenError(parsed.error).fieldErrors }
   }
 
+  const baseData = toSectionData(parsed.data)
+  let viewMoreHref: string | null = null
+
+  if (parsed.data.useCategoryViewMore) {
+    if (!parsed.data.categoryId) {
+      return { fieldErrors: { categoryId: ['Select a category to enable View more'] } }
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id: parsed.data.categoryId },
+      select: { slug: true },
+    })
+
+    if (!category) {
+      return { fieldErrors: { categoryId: ['Selected category no longer exists'] } }
+    }
+
+    viewMoreHref = toCategoryHref(category.slug)
+  }
+
   try {
-    await prisma.homePageSection.create({ data: toSectionData(parsed.data) })
+    await prisma.homePageSection.create({ data: { ...baseData, viewMoreHref } })
   } catch (e) {
     if (isForeignKeyViolation(e, 'categoryId')) {
       return { fieldErrors: { categoryId: ['Selected category no longer exists'] } }
@@ -59,8 +81,31 @@ export async function updateHomePageSectionAction(
     return { fieldErrors: z.flattenError(parsed.error).fieldErrors }
   }
 
+  const baseData = toSectionData(parsed.data)
+  let viewMoreHref: string | null = null
+
+  if (parsed.data.useCategoryViewMore) {
+    if (!parsed.data.categoryId) {
+      return { fieldErrors: { categoryId: ['Select a category to enable View more'] } }
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id: parsed.data.categoryId },
+      select: { slug: true },
+    })
+
+    if (!category) {
+      return { fieldErrors: { categoryId: ['Selected category no longer exists'] } }
+    }
+
+    viewMoreHref = toCategoryHref(category.slug)
+  }
+
   try {
-    await prisma.homePageSection.update({ where: { id }, data: toSectionData(parsed.data) })
+    await prisma.homePageSection.update({
+      where: { id },
+      data: { ...baseData, viewMoreHref },
+    })
   } catch (e) {
     if (isForeignKeyViolation(e, 'categoryId')) {
       return { fieldErrors: { categoryId: ['Selected category no longer exists'] } }
