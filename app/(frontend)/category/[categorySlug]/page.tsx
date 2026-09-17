@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { FilmCard } from '@/components/shared/film-card'
 import { PostPaginator } from '@/components/shared/post-paginator'
 import { Section } from '@/components/shared/section'
+
 import { getCategoryBySlug } from '@/lib/categories/categories'
 import { getPosts } from '@/lib/posts/posts'
 
@@ -48,21 +49,9 @@ export default async function CategoryPage({
   if (!category) notFound()
 
   const hasResults = rows.length > 0
-  const rangeStart = total > 0 ? (page - 1) * pageSize + 1 : 0
-  const rangeEnd = total > 0 ? rangeStart + rows.length - 1 : 0
 
   return (
     <Section title={category.name}>
-      <div className="mt-12 flex flex-col gap-2 sm:mt-20">
-        {hasResults ? (
-          <p className="text-white-900 font-brandon text-sm/6">
-            Showing {rangeStart}-{rangeEnd} from {total}
-          </p>
-        ) : (
-          <p className="text-accent-400 text-sm">No posts found in this category yet.</p>
-        )}
-      </div>
-
       {!hasResults ? (
         <div className="text-accent-500 mt-12 flex min-h-60 flex-col items-center justify-center gap-2 text-center sm:mt-20">
           <p className="font-lora text-xl">No posts in this category</p>
@@ -72,7 +61,7 @@ export default async function CategoryPage({
         </div>
       ) : (
         <>
-          <div className="mt-12 grid grid-cols-1 gap-5 sm:mt-20 sm:grid-cols-3 lg:gap-6">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:mt-16 sm:grid-cols-3 lg:gap-6">
             {rows.map((post) => (
               <Link key={post.id} href={`/film/${post.slug}`}>
                 <FilmCard
@@ -88,7 +77,7 @@ export default async function CategoryPage({
             ))}
           </div>
 
-          <PostPaginator total={total} pageSize={pageSize} />
+          <PostPaginator total={total} pageSize={pageSize} page={page} rows={rows} />
         </>
       )}
     </Section>

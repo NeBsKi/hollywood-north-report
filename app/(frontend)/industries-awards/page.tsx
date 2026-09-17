@@ -1,8 +1,7 @@
 import Link from 'next/link'
 
-import { cn } from '@/lib/utils'
-import { FilmCard, Section, PostFilters } from '@/components/shared'
-import { getPosts, getPostsFilters } from '@/lib/posts/posts'
+import { FilmCard, Section } from '@/components/shared'
+import { getPosts } from '@/lib/posts/posts'
 import { PostPaginator } from '@/components/shared/post-paginator'
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
@@ -13,15 +12,19 @@ export default async function IndustriesAwardsPage({
   searchParams: SearchParams
 }) {
   const params = await searchParams
-  const [{ rows, total = 0, pageSize = 0, page = 1 }, filters] = await Promise.all([
-    getPosts({ params, categorySlug: 'industries-and-awards' }),
-    getPostsFilters(),
-  ])
+  const {
+    rows,
+    total = 0,
+    pageSize = 0,
+    page = 1,
+  } = await getPosts({
+    params,
+    categorySlug: 'industries-and-awards',
+  })
 
   const featuredPost = rows[0]
   const otherPosts = rows.slice(1)
   const [leftPosts, rightPosts] = [otherPosts.slice(0, 5), otherPosts.slice(5)]
-  const hasResults = otherPosts.length > 0
 
   return (
     <Section title="Industries & Awards">
@@ -37,19 +40,6 @@ export default async function IndustriesAwardsPage({
           />
         </Link>
       )}
-      <div
-        className={cn(
-          'flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-end',
-          featuredPost && 'mt-12 sm:mt-20',
-        )}
-      >
-        <div className="hidden sm:block">
-          <p className="text-white-900 font-brandon text-sm/6">
-            Showing {page}-{rows.length} from {total}
-          </p>
-        </div>
-        <PostFilters filters={filters} />
-      </div>
       <div className="mt-12 flex flex-col items-start justify-between gap-6 sm:mt-20 sm:flex-row sm:gap-8 xl:gap-32">
         <div className="flex w-full flex-col gap-8 sm:w-2/3">
           {leftPosts.length > 0 && (
@@ -91,7 +81,7 @@ export default async function IndustriesAwardsPage({
         </div>
       </div>
 
-      <PostPaginator total={total} pageSize={pageSize} />
+      <PostPaginator total={total} pageSize={pageSize} page={page} rows={rows} />
     </Section>
   )
 }

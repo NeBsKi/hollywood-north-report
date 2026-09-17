@@ -4,7 +4,8 @@ import type { Metadata } from 'next'
 import { FilmCard } from '@/components/shared/film-card'
 import { PostPaginator } from '@/components/shared/post-paginator'
 import { Section } from '@/components/shared/section'
-import { getPosts } from '@/lib/posts/posts'
+import { getPosts, getPostsFilters } from '@/lib/posts/posts'
+import { PostFilters } from '@/components/shared/post-filters'
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
@@ -35,6 +36,7 @@ export async function generateMetadata({
 export default async function SearchPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams
   const query = normalizeQuery(params.q)
+  const filters = await getPostsFilters()
 
   if (!query) {
     return (
@@ -64,22 +66,12 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
   })
 
   const hasResults = rows.length > 0
-  const rangeStart = total > 0 ? (page - 1) * pageSize + 1 : 0
-  const rangeEnd = total > 0 ? rangeStart + rows.length - 1 : 0
 
   return (
-    <Section title="Search">
-      <div className="mt-12 flex flex-col gap-2 sm:mt-20">
-        <p className="text-accent-500 font-lora text-xl">Results for "{query}"</p>
-        {hasResults ? (
-          <p className="text-white-900 font-brandon text-sm/6">
-            Showing {rangeStart}-{rangeEnd} from {total}
-          </p>
-        ) : (
-          <p className="text-accent-400 text-sm">
-            No matches found. Try a different term or a broader phrase.
-          </p>
-        )}
+    <Section title="Explore the archive">
+      <div className="mt-12 flex flex-wrap items-center justify-between gap-2 sm:mt-20">
+        <p className="text-accent-500 font-lora text-xl">Results for &quot;{query}&quot;</p>
+        <PostFilters filters={filters} />
       </div>
 
       {!hasResults ? (
@@ -105,7 +97,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
             ))}
           </div>
 
-          <PostPaginator total={total} pageSize={pageSize} />
+          <PostPaginator total={total} pageSize={pageSize} page={page} rows={rows} />
         </>
       )}
     </Section>

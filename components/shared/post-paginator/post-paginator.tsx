@@ -1,6 +1,5 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -13,17 +12,16 @@ import { PaginationClient } from '../pagination'
 import { PostPaginatorProps } from './post-paginator.types'
 import { useRouter } from 'next/navigation'
 
-export function PostPaginator({ total, pageSize }: PostPaginatorProps) {
+export function PostPaginator({ total, pageSize, page, rows }: PostPaginatorProps) {
   const router = useRouter()
-  const pageCount = Math.max(1, Math.ceil(total / pageSize))
 
   return (
-    <div
-      className={cn('mt-26 grid w-full grid-cols-[1fr_auto_1fr] items-center', {
-        'grid-cols-[auto_auto]': pageCount <= 1,
-      })}
-    >
-      <div />
+    <div className="mt-26 flex w-full items-center justify-center sm:justify-between">
+      <div className="hidden sm:block">
+        <p className="text-white-900 font-brandon text-sm/6">
+          Showing {page}-{rows.length} from {total}
+        </p>
+      </div>
       <PaginationClient total={total} pageSize={pageSize} />
       <div className="hidden items-center justify-end gap-2 sm:flex">
         <Select
