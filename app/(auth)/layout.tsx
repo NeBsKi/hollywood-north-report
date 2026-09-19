@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Toaster } from '@/components/ui/sonner'
 
 export const metadata: Metadata = {
   title: 'Authorization',
@@ -14,7 +13,6 @@ export default function AuthLayout({
   return (
     <main>
       {children}
-      <Toaster />
     </main>
   )
 }

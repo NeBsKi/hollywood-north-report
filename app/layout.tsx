@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Lora, IM_Fell_Great_Primer_SC, Geist } from 'next/font/google'
 import localFont from 'next/font/local'
+import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 import { cn } from "@/lib/utils";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${brandon.variable} ${lora.variable} ${imFell.variable} antialiased`}>
         {children}
+        <Toaster />
       </body>
     </html>
   )
